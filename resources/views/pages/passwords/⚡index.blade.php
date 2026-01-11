@@ -52,11 +52,6 @@ new class extends Component
 
         $password->delete();
     }
-
-    public function copyToClipboard(string $text): void
-    {
-        $this->js("navigator.clipboard.writeText('{$text}')");
-    }
 };
 ?>
 
@@ -74,35 +69,7 @@ new class extends Component
     @if ($this->passwords->isNotEmpty())
         <ul role="list" class="divide-y divide-zinc-200 dark:divide-white/10 overflow-hidden">
             @foreach ($this->passwords as $password)
-                <li wire:key="password-{{ $password->id }}" class="relative flex justify-between gap-x-6 py-5">
-                    <div class="flex min-w-0 gap-x-4">
-                        <div class="min-w-0 flex-auto">
-                            <flux:heading>
-                                <a href="{{ route('passwords.edit', $password) }}">
-                                    <span class="absolute inset-x-0 -top-px bottom-0"></span>
-                                    {{ $password->name }}
-                                </a>
-                            </flux:heading>
-                            <flux:text size="sm">
-                                {{ $password->username }}
-                            </flux:text>
-                        </div>
-                    </div>
-                    <div class="flex shrink-0 items-center gap-x-4">
-                        <flux:dropdown align="end">
-                            <flux:button icon="ellipsis-horizontal" variant="ghost" square />
-
-                            <flux:menu>
-                                <flux:menu.item :href="route('passwords.edit', $password)" icon="pencil">
-                                    Edit
-                                </flux:menu.item>
-                                <flux:menu.item variant="danger" icon="trash" wire:click="delete({{ $password->id }})">
-                                    Delete
-                                </flux:menu.item>
-                            </flux:menu>
-                        </flux:dropdown>
-                    </div>
-                </li>
+                <livewire:passwords.item :$password key="password-{{ $password->id }}" />
             @endforeach
         </ul>
     @else
