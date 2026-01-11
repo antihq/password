@@ -21,6 +21,20 @@ new class extends Component
             <flux:text size="sm">
                 {{ $password->username }}
             </flux:text>
+            <flux:modal name="view-password-{{ $password->id }}" class="w-full sm:max-w-lg">
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <flux:heading size="lg">{{ $password->name }}</flux:heading>
+                        <flux:text>View your password details below.</flux:text>
+                    </div>
+
+                    <flux:input :value="$password->name" label="Name" readonly variant="filled" />
+
+                    <flux:input :value="$password->username" label="Username" readonly variant="filled" copyable />
+
+                    <flux:input :value="$password->password" label="Password" type="password" readonly variant="filled" copyable viewable />
+                </div>
+            </flux:modal>
         </div>
     </div>
     <div class="flex shrink-0 items-center gap-x-4">
@@ -34,19 +48,4 @@ new class extends Component
             </flux:menu>
         </flux:dropdown>
     </div>
-
-    <flux:modal name="view-password-{{ $password->id }}" class="w-full sm:max-w-lg">
-        <div class="space-y-6">
-            <div class="space-y-2">
-                <flux:heading size="lg">{{ $password->name }}</flux:heading>
-                <flux:text>View your password details below.</flux:text>
-            </div>
-
-            <flux:input :value="$password->name" label="Name" readonly variant="filled" />
-
-            <flux:input :value="$password->username" label="Username" readonly variant="filled" copyable />
-
-            <flux:input :value="$password->password" label="Password" readonly variant="filled" copyable viewable />
-        </div>
-    </flux:modal>
 </li>
