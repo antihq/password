@@ -12,5 +12,5 @@ it('redirects guests to the login page', function () {
 it('allows authenticated users to visit the dashboard', function () {
     actingAs($user = User::factory()->withPersonalTeam()->create());
 
-    get('/dashboard')->assertStatus(200);
+    get('/dashboard')->assertRedirect('/passwords');
 });
