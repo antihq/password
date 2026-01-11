@@ -4,9 +4,10 @@ use App\Models\Password;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new class extends Component
+new #[Title('Passwords')] class extends Component
 {
     public $name = '';
 
