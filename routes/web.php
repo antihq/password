@@ -21,6 +21,10 @@ Route::middleware([
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::livewire('passwords', 'pages::passwords.index')->name('passwords.index');
+    Route::livewire('passwords/create', 'pages::passwords.create')->name('passwords.create');
+    Route::livewire('passwords/{password}/edit', 'pages::passwords.edit')->name('passwords.edit');
+
     Route::livewire('teams/create', 'pages::teams.create')->name('teams.create');
     Route::livewire('teams/{team}', 'pages::teams.show')->name('teams.edit');
     Route::livewire('teams/{team}/members', 'pages::teams.members.index')->name('teams.members.index');
