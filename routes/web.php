@@ -17,7 +17,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::redirect('dashboard', 'passwords')->name('dashboard');
 });
 
 Route::middleware(['auth'])->group(function () {
