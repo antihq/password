@@ -21,6 +21,31 @@ new class extends Component
             ->get();
     }
 
+    public $name = '';
+
+    public $username = '';
+
+    public $password = '';
+
+    public function create()
+    {
+        $this->authorize('create', Password::class);
+
+        $this->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string'],
+        ]);
+
+        $this->user->currentTeam->passwords()->create([
+            'name' => $this->pull('name'),
+            'username' => $this->pull('username'),
+            'password' => $this->pull('password'),
+        ]);
+
+        $this->modal('create-password')->close();
+    }
+
     public function delete(Password $password)
     {
         $this->authorize('delete', $password);
@@ -40,9 +65,9 @@ new class extends Component
         <flux:heading size="xl">Passwords</flux:heading>
 
         @if ($this->passwords->isNotEmpty())
-            <flux:button variant="primary" href="{{ route('passwords.create') }}" wire:navigate>
-                Create Password
-            </flux:button>
+            <flux:modal.trigger name="create-password">
+                <flux:button variant="primary">Create Password</flux:button>
+            </flux:modal.trigger>
         @endif
     </div>
 
@@ -112,10 +137,32 @@ new class extends Component
             <flux:heading class="mt-2">No passwords</flux:heading>
             <flux:text class="mt-1">Get started by creating a new password.</flux:text>
             <div class="mt-6">
-                <flux:button variant="primary" href="{{ route('passwords.create') }}" wire:navigate>
-                    Create password
-                </flux:button>
+                <flux:modal.trigger name="create-password">
+                    <flux:button variant="primary">Create password</flux:button>
+                </flux:modal.trigger>
             </div>
         </div>
     @endif
+
+    <flux:modal name="create-password" class="md:w-96">
+        <form wire:submit="create" class="space-y-6">
+            <div class="space-y-1">
+                <flux:heading size="lg">Create password</flux:heading>
+                <flux:text>Create a new password credential to store securely.</flux:text>
+            </div>
+
+            <flux:input wire:model="name" label="Name" type="text" required autofocus />
+
+            <flux:input wire:model="username" label="Username" type="text" required />
+
+            <flux:input wire:model="password" label="Password" type="text" required />
+
+            <div class="flex items-center justify-end gap-2">
+                <flux:modal.close>
+                    <flux:button variant="ghost">Cancel</flux:button>
+                </flux:modal.close>
+                <flux:button type="submit" variant="primary">Create</flux:button>
+            </div>
+        </form>
+    </flux:modal>
 </section>

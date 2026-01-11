@@ -33,12 +33,14 @@ it('cannot view passwords from other teams', function () {
 
 it('can create a password', function () {
     Livewire::actingAs($this->user)
-        ->test('pages::passwords.create')
+        ->test('pages::passwords.index')
         ->set('name', 'Netflix')
         ->set('username', 'test@example.com')
         ->set('password', 'secret123')
         ->call('create')
-        ->assertRedirect(route('passwords.index'));
+        ->assertSet('name', '')
+        ->assertSet('username', '')
+        ->assertSet('password', '');
 
     $this->assertDatabaseHas('passwords', [
         'name' => 'Netflix',
@@ -49,7 +51,7 @@ it('can create a password', function () {
 
 it('validates required fields when creating password', function () {
     Livewire::actingAs($this->user)
-        ->test('pages::passwords.create')
+        ->test('pages::passwords.index')
         ->set('name', '')
         ->set('username', '')
         ->set('password', '')
