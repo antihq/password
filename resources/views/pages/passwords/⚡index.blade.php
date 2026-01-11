@@ -38,12 +38,15 @@ new class extends Component
 <section class="mx-auto max-w-6xl space-y-8">
     <div class="flex items-center justify-between">
         <flux:heading size="xl">Passwords</flux:heading>
-        <flux:button variant="primary" href="{{ route('passwords.create') }}" wire:navigate>
-            Create Password
-        </flux:button>
+
+        @if ($this->passwords->isNotEmpty())
+            <flux:button variant="primary" href="{{ route('passwords.create') }}" wire:navigate>
+                Create Password
+            </flux:button>
+        @endif
     </div>
 
-    @if (count($this->passwords) > 0)
+    @if ($this->passwords->isNotEmpty())
         <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
             <table class="min-w-full divide-y divide-neutral-200 dark:divide-neutral-700">
                 <thead class="bg-neutral-50 dark:bg-neutral-800/50">
@@ -102,8 +105,17 @@ new class extends Component
             </table>
         </div>
     @else
-        <div class="rounded-xl border border-neutral-200 bg-neutral-50 px-6 py-4 dark:border-neutral-700 dark:bg-neutral-800/50">
-            No passwords found. Create your first password to get started.
+        <div class="text-center">
+            <div class="mx-auto flex items-center justify-center">
+                <flux:icon.key variant="outline" class="size-6 text-zinc-500 dark:text-zinc-400" />
+            </div>
+            <flux:heading class="mt-2">No passwords</flux:heading>
+            <flux:text class="mt-1">Get started by creating a new password.</flux:text>
+            <div class="mt-6">
+                <flux:button variant="primary" href="{{ route('passwords.create') }}" wire:navigate>
+                    Create password
+                </flux:button>
+            </div>
         </div>
     @endif
 </section>
