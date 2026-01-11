@@ -77,17 +77,17 @@ new class extends Component
                         </div>
 
                         @if ($isEditing)
-                            <flux:input wire:model="editName" label="Name" type="text" required autofocus />
+                            <flux:input wire:key="edit-name" wire:model="editName" label="Name" type="text" required autofocus />
 
-                            <flux:input wire:model="editUsername" label="Username" type="text" required />
+                            <flux:input wire:key="edit-username" wire:model="editUsername" label="Username" type="text" required />
 
-                            <flux:input wire:model="editPassword" label="Password" type="text" required />
+                            <flux:input wire:key="edit-password" wire:model="editPassword" label="Password" type="text" required />
                         @else
-                            <flux:input :value="$password->name" label="Name" readonly variant="filled" />
+                            <flux:input wire:key="view-name" :value="$password->name" label="Name" readonly variant="filled" />
 
-                            <flux:input :value="$password->username" label="Username" readonly variant="filled" copyable />
+                            <flux:input wire:key="view-username" :value="$password->username" label="Username" readonly variant="filled" copyable />
 
-                            <flux:input :value="$password->password" label="Password" type="password" readonly variant="filled" copyable viewable />
+                            <flux:input wire:key="view-password" :value="$password->password" label="Password" type="password" readonly variant="filled" copyable viewable />
                         @endif
                     </div>
 
@@ -101,7 +101,7 @@ new class extends Component
                             <flux:modal.close>
                                 <flux:button variant="ghost" class="w-full sm:w-auto">Close</flux:button>
                             </flux:modal.close>
-                            <flux:button wire:click="enterEditMode" variant="filled">Edit</flux:button>
+                            <flux:button wire:click="enterEditMode">Edit</flux:button>
                         @endif
                     </div>
                 </form>
