@@ -65,8 +65,10 @@ new class extends Component
         $this->modal('create-password')->close();
     }
 
-    public function delete(Password $password)
+    public function delete($id)
     {
+        $password = $this->team()->passwords()->findOrFail($id);
+
         $this->authorize('delete', $password);
 
         $password->delete();
