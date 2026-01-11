@@ -50,7 +50,7 @@ new class extends Component
 };
 ?>
 
-<li wire:key="password-{{ $password->id }}" class="relative flex justify-between gap-x-6 py-5">
+<li wire:key="password-{{ $password->id }}" class="relative flex justify-between gap-x-6 px-3.5 py-2.5 sm:px-3 sm:py-1.5 rounded-lg hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
     <div class="flex min-w-0 gap-x-4">
         <div class="min-w-0 flex-auto">
             <flux:heading>

@@ -89,11 +89,18 @@ new #[Title('Passwords')] class extends Component
     </div>
 
     @if ($this->passwords->isNotEmpty())
-        <ul role="list" class="divide-y divide-zinc-200 dark:divide-white/10 overflow-hidden">
-            @foreach ($this->passwords as $password)
-                <livewire:passwords.item :$password key="password-{{ $password->id }}" />
-            @endforeach
-        </ul>
+        <div class="relative h-full w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,0,0,0.20),0px_1px_0px_0px_rgba(255,255,255,0.06)_inset] forced-colors:outline">
+            <ul role="list" class="overflow-hidden p-[.3125rem]">
+                @foreach ($this->passwords as $password)
+                    <livewire:passwords.item :$password key="password-{{ $password->id }}" />
+                    @unless($loop->last)
+                        <li class="mx-3.5 my-1 h-px sm:mx-3">
+                            <flux:separator variant="subtle" />
+                        </li>
+                    @endunless
+                @endforeach
+            </ul>
+        </div>
     @else
         <div class="text-center">
             <div class="mx-auto flex items-center justify-center">
