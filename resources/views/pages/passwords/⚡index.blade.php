@@ -144,24 +144,28 @@ new class extends Component
         </div>
     @endif
 
-    <flux:modal name="create-password" class="md:w-96">
-        <form wire:submit="create" class="space-y-6">
-            <div class="space-y-1">
-                <flux:heading size="lg">Create password</flux:heading>
-                <flux:text>Create a new password credential to store securely.</flux:text>
+    <flux:modal name="create-password" class="w-full sm:max-w-lg">
+        <form wire:submit="create" class="space-y-8">
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <flux:heading size="lg">Create password</flux:heading>
+                    <flux:text>Create a new password credential to store securely.</flux:text>
+                </div>
+
+                <flux:input wire:model="name" label="Name" type="text" required autofocus />
+
+                <flux:input wire:model="username" label="Username" type="text" required />
+
+                <flux:input wire:model="password" label="Password" type="text" required />
             </div>
 
-            <flux:input wire:model="name" label="Name" type="text" required autofocus />
-
-            <flux:input wire:model="username" label="Username" type="text" required />
-
-            <flux:input wire:model="password" label="Password" type="text" required />
-
-            <div class="flex items-center justify-end gap-2">
+            <div
+                class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto"
+            >
                 <flux:modal.close>
-                    <flux:button variant="ghost">Cancel</flux:button>
+                    <flux:button variant="ghost" class="w-full sm:w-auto">Cancel</flux:button>
                 </flux:modal.close>
-                <flux:button type="submit" variant="primary">Create</flux:button>
+                <flux:button type="submit" variant="primary">Save</flux:button>
             </div>
         </form>
     </flux:modal>
