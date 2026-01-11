@@ -72,63 +72,80 @@ new class extends Component
     </div>
 
     @if ($this->passwords->isNotEmpty())
-        <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-            <table class="min-w-full divide-y divide-neutral-200 dark:divide-neutral-700">
-                <thead class="bg-neutral-50 dark:bg-neutral-800/50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-neutral-900 dark:text-white">Name</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-neutral-900 dark:text-white">Username</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-neutral-900 dark:text-white">Password</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-neutral-900 dark:text-white">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700 bg-white dark:bg-neutral-900">
-                    @foreach ($this->passwords as $password)
-                        <tr wire:key="password-{{ $password->id }}">
-                            <td class="px-6 py-4">
-                                <flux:text>{{ $password->name }}</flux:text>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-2">
-                                    <flux:text>{{ $password->username }}</flux:text>
-                                    <flux:button
-                                        variant="ghost"
-                                        size="sm"
-                                        wire:click="copyToClipboard('{{ $password->username }}')"
-                                    >Copy</flux:button>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-2">
-                                    <flux:text class="font-mono">•••••••</flux:text>
-                                    <flux:button
-                                        variant="ghost"
-                                        size="sm"
-                                        wire:click="copyToClipboard('{{ $password->password }}')"
-                                    >Copy</flux:button>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-2">
-                                    <flux:button
-                                        variant="ghost"
-                                        size="sm"
-                                        href="{{ route('passwords.edit', $password) }}"
-                                        wire:navigate
-                                    >Edit</flux:button>
-                                    <flux:button
-                                        variant="ghost"
-                                        size="sm"
-                                        wire:confirm="Are you sure you want to delete this password?"
-                                        wire:click="delete({{ $password->id }})"
-                                    >Delete</flux:button>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+        <ul role="list" class="divide-y divide-white/5 overflow-hidden bg-gray-800/50 outline-1 outline-white/10 sm:rounded-xl sm:-outline-offset-1">
+            @foreach ($this->passwords as $password)
+                <li wire:key="password-{{ $password->id }}" class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-white/2.5 sm:px-6">
+                    <div class="flex min-w-0 gap-x-4">
+                        <div class="size-12 flex-none rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10 flex items-center justify-center">
+                            <flux:icon.key variant="outline" class="size-6 text-zinc-500 dark:text-zinc-400" />
+                        </div>
+                        <div class="min-w-0 flex-auto">
+                            <p class="text-sm/6 font-semibold text-white">
+                                {{ $password->name }}
+                            </p>
+                            <p class="mt-1 flex text-xs/5 text-gray-400 truncate">
+                                {{ $password->username }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex shrink-0 items-center gap-x-4">
+                        <div class="hidden sm:flex sm:flex-col sm:items-end gap-2">
+                            <div class="flex gap-2">
+                                <flux:button
+                                    variant="ghost"
+                                    size="sm"
+                                    wire:click="copyToClipboard('{{ $password->username }}')"
+                                >Copy Username</flux:button>
+                                <flux:button
+                                    variant="ghost"
+                                    size="sm"
+                                    wire:click="copyToClipboard('{{ $password->password }}')"
+                                >Copy Password</flux:button>
+                            </div>
+                            <div class="flex gap-2">
+                                <flux:button
+                                    variant="ghost"
+                                    size="sm"
+                                    href="{{ route('passwords.edit', $password) }}"
+                                    wire:navigate
+                                >Edit</flux:button>
+                                <flux:button
+                                    variant="ghost"
+                                    size="sm"
+                                    wire:confirm="Are you sure you want to delete this password?"
+                                    wire:click="delete({{ $password->id }})"
+                                >Delete</flux:button>
+                            </div>
+                        </div>
+                        <div class="flex sm:hidden gap-2">
+                            <flux:button
+                                variant="ghost"
+                                size="sm"
+                                wire:click="copyToClipboard('{{ $password->username }}')"
+                            >Copy Username</flux:button>
+                            <flux:button
+                                variant="ghost"
+                                size="sm"
+                                wire:click="copyToClipboard('{{ $password->password }}')"
+                            >Copy Password</flux:button>
+                            <flux:button
+                                variant="ghost"
+                                size="sm"
+                                href="{{ route('passwords.edit', $password) }}"
+                                wire:navigate
+                            >Edit</flux:button>
+                            <flux:button
+                                variant="ghost"
+                                size="sm"
+                                wire:confirm="Are you sure you want to delete this password?"
+                                wire:click="delete({{ $password->id }})"
+                            >Delete</flux:button>
+                        </div>
+                        <flux:icon.chevron-right class="size-5 flex-none text-gray-500 sm:hidden" />
+                    </div>
+                </li>
+            @endforeach
+        </ul>
     @else
         <div class="text-center">
             <div class="mx-auto flex items-center justify-center">
