@@ -76,7 +76,7 @@ new class extends Component
 };
 ?>
 
-<section class="mx-auto max-w-6xl space-y-8">
+<section class="mx-auto max-w-3xl space-y-8">
     <div class="flex items-center justify-between">
         <flux:heading size="xl">Passwords</flux:heading>
 
