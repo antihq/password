@@ -51,7 +51,7 @@ new class extends Component {
     >
         <div class="flex min-w-0 gap-x-4">
             <div class="min-w-0 flex-auto">
-                <flux:heading>
+                <flux:heading class="truncate">
                     <flux:modal.trigger name="view-password-{{ $password->id }}">
                         <span class="absolute inset-x-0 -top-px bottom-0"></span>
                         {{ $password->name }}
@@ -133,7 +133,7 @@ new class extends Component {
                     <flux:text>Update your password details below.</flux:text>
                 </div>
 
-                <flux:input wire:model="name" label="Name" type="text" required autofocus />
+                <flux:input wire:model="name" label="Name" type="text" required />
 
                 <flux:input wire:model="username" label="Username" type="text" required />
 
