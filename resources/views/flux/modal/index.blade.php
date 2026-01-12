@@ -81,9 +81,9 @@ if ($dismissible === false) {
 @endphp
 
 <ui-modal {{ $attributes }} data-flux-modal>
-    <?php if ($trigger) { ?>
+    <?php if ($trigger): ?>
         {{ $trigger }}
-    <?php } ?>
+    <?php endif; ?>
 
     <dialog
         wire:ignore.self {{-- This needs to be here because the dialog element adds a "close" attribute that isn't durable... --}}
@@ -107,12 +107,12 @@ if ($dismissible === false) {
     >
         {{ $slot }}
 
-        <?php if ($closable) { ?>
+        <?php if ($closable): ?>
             <div class="absolute top-0 end-0 mt-4 me-4">
                 <flux:modal.close>
                     <flux:button variant="ghost" icon="x-mark" size="sm" aria-label="Close modal" class="text-zinc-400! hover:text-zinc-800! dark:text-zinc-500! dark:hover:text-white!"></flux:button>
                 </flux:modal.close>
             </div>
-        <?php } ?>
+        <?php endif; ?>
     </dialog>
 </ui-modal>
