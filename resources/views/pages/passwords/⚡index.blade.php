@@ -17,6 +17,8 @@ new #[Title('Passwords')] class extends Component
 
     public $website = '';
 
+    public $notes = '';
+
     public function mount()
     {
         $this->generatePassword();
@@ -58,6 +60,7 @@ new #[Title('Passwords')] class extends Component
             'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string'],
             'website' => ['nullable', 'url', 'max:255'],
+            'notes' => ['nullable', 'string'],
         ]);
 
         $this->team->passwords()->create([
@@ -65,6 +68,7 @@ new #[Title('Passwords')] class extends Component
             'username' => $this->pull('username'),
             'password' => $this->pull('password'),
             'website' => $this->pull('website'),
+            'notes' => $this->pull('notes'),
         ]);
 
         $this->modal('create-password')->close();
@@ -139,6 +143,8 @@ new #[Title('Passwords')] class extends Component
                 </flux:input>
 
                 <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
+
+                <flux:editor wire:model="notes" label="Notes" label:sr-only placeholder="Notes" />
             </div>
 
             <div

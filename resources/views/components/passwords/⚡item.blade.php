@@ -15,12 +15,15 @@ new class extends Component {
 
     public string $website = '';
 
+    public string $notes = '';
+
     public function mount(): void
     {
         $this->name = $this->password->name;
         $this->username = $this->password->username;
         $this->newPassword = $this->password->password;
         $this->website = $this->password->website ?? '';
+        $this->notes = $this->password->notes ?? '';
     }
 
     public function cancelEdit(): void
@@ -29,6 +32,7 @@ new class extends Component {
         $this->username = $this->password->username;
         $this->newPassword = $this->password->password;
         $this->website = $this->password->website ?? '';
+        $this->notes = $this->password->notes ?? '';
     }
 
     public function save(): void
@@ -40,6 +44,7 @@ new class extends Component {
             'username' => ['required', 'string', 'max:255'],
             'newPassword' => ['required', 'string'],
             'website' => ['nullable', 'url', 'max:255'],
+            'notes' => ['nullable', 'string'],
         ]);
 
         $this->password->update([
@@ -47,6 +52,7 @@ new class extends Component {
             'username' => $this->username,
             'password' => $this->newPassword,
             'website' => $this->website ?: null,
+            'notes' => $this->notes ?: null,
         ]);
 
         Flux::modal("edit-password-{$this->password->id}")->close();
@@ -163,6 +169,16 @@ new class extends Component {
                         </x-slot>
                     </flux:input>
                 @endif
+
+                @if($password->notes)
+                    <flux:accordion>
+                        <flux:accordion.item heading="Notes">
+                            <x-prose>
+                                {!! $password->notes !!}
+                            </x-prose>
+                        </flux:accordion.item>
+                    </flux:accordion>
+                @endif
             </div>
         </div>
     </flux:modal>
@@ -183,6 +199,8 @@ new class extends Component {
                 <flux:input wire:model="newPassword" label="Password" type="text" required />
 
                 <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
+
+                <flux:editor wire:model="notes" label="Notes" label:sr-only placeholder="Notes" />
             </div>
 
             <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">

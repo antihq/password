@@ -17,6 +17,7 @@ class Password extends Model
         'username',
         'password',
         'website',
+        'notes',
     ];
 
     public function team(): BelongsTo
@@ -41,6 +42,7 @@ class Password extends Model
     {
         return [
             'password' => 'encrypted',
+            'notes' => 'encrypted',
         ];
     }
 }
