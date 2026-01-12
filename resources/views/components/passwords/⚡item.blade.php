@@ -108,6 +108,17 @@ new class extends Component {
                     copyable
                 />
 
+                <flux:input
+                    wire:key="view-password"
+                    :value="$password->password"
+                    label="Password"
+                    type="password"
+                    readonly
+                    variant="filled"
+                    copyable
+                    viewable
+                />
+
                 @if($password->website)
                     <flux:input
                         wire:key="view-website"
@@ -123,17 +134,6 @@ new class extends Component {
                         </x-slot>
                     </flux:input>
                 @endif
-
-                <flux:input
-                    wire:key="view-password"
-                    :value="$password->password"
-                    label="Password"
-                    type="password"
-                    readonly
-                    variant="filled"
-                    copyable
-                    viewable
-                />
             </div>
         </div>
     </flux:modal>
@@ -151,9 +151,9 @@ new class extends Component {
 
                 <flux:input wire:model="username" label="Username" type="text" required />
 
-                <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
-
                 <flux:input wire:model="newPassword" label="Password" type="text" required />
+
+                <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
             </div>
 
             <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
