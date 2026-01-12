@@ -11,20 +11,15 @@ beforeEach(function () {
     $this->user = User::factory()->withPersonalTeam()->create();
 });
 
-it('can enter edit mode from modal', function () {
+it('mounts with pre-populated form values', function () {
     $password = Password::factory()->create(['team_id' => $this->user->currentTeam->id]);
 
     $component = Livewire::actingAs($this->user)
         ->test('passwords.item', ['password' => $password]);
 
-    $component->assertSet('isEditing', false);
-
-    $component->call('enterEditMode');
-
-    $component->assertSet('isEditing', true)
-        ->assertSet('editName', $password->name)
-        ->assertSet('editUsername', $password->username)
-        ->assertSet('editPassword', $password->password);
+    $component->assertSet('name', $password->name)
+        ->assertSet('username', $password->username)
+        ->assertSet('newPassword', $password->password);
 });
 
 it('can cancel edit mode', function () {
@@ -33,15 +28,15 @@ it('can cancel edit mode', function () {
     $component = Livewire::actingAs($this->user)
         ->test('passwords.item', ['password' => $password]);
 
-    $component->call('enterEditMode')
-        ->assertSet('isEditing', true);
+    $component->set('name', 'Modified Name')
+        ->set('username', 'modified@example.com')
+        ->set('newPassword', 'modifiedpassword');
 
     $component->call('cancelEdit');
 
-    $component->assertSet('isEditing', false)
-        ->assertSet('editName', '')
-        ->assertSet('editUsername', '')
-        ->assertSet('editPassword', '');
+    $component->assertSet('name', $password->name)
+        ->assertSet('username', $password->username)
+        ->assertSet('newPassword', $password->password);
 });
 
 it('can update password from modal', function () {
@@ -49,12 +44,10 @@ it('can update password from modal', function () {
 
     Livewire::actingAs($this->user)
         ->test('passwords.item', ['password' => $password])
-        ->call('enterEditMode')
-        ->set('editName', 'Updated Name')
-        ->set('editUsername', 'updated@example.com')
-        ->set('editPassword', 'newpassword123')
-        ->call('save')
-        ->assertSet('isEditing', false);
+        ->set('name', 'Updated Name')
+        ->set('username', 'updated@example.com')
+        ->set('newPassword', 'newpassword123')
+        ->call('save');
 
     $this->assertDatabaseHas('passwords', [
         'id' => $password->id,
@@ -71,10 +64,9 @@ it('validates required fields when updating password', function () {
 
     Livewire::actingAs($this->user)
         ->test('passwords.item', ['password' => $password])
-        ->call('enterEditMode')
-        ->set('editName', '')
-        ->set('editUsername', '')
-        ->set('editPassword', '')
+        ->set('name', '')
+        ->set('username', '')
+        ->set('newPassword', '')
         ->call('save')
-        ->assertHasErrors(['editName', 'editUsername', 'editPassword']);
+        ->assertHasErrors(['name', 'username', 'newPassword']);
 });
