@@ -83,17 +83,15 @@ new class extends Component {
             </flux:dropdown>
         </div>
     </div>
-    <flux:modal name="view-password-{{ $password->id }}" class="w-full sm:max-w-lg">
+    <flux:modal name="view-password-{{ $password->id }}" :closable="false" class="w-full sm:max-w-lg">
         <div class="space-y-8">
             <div class="space-y-6">
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <flux:heading size="lg">View password</flux:heading>
-                    </div>
-                    <flux:text>View your password details below.</flux:text>
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <flux:heading size="lg">{{ $password->name }}</flux:heading>
+                    <flux:modal.trigger name="edit-password-{{ $password->id }}">
+                        <flux:button class="-my-0.5">Edit</flux:button>
+                    </flux:modal.trigger>
                 </div>
-
-                <flux:input wire:key="view-name" :value="$password->name" label="Name" readonly variant="filled" />
 
                 <flux:input
                     wire:key="view-username"
@@ -114,15 +112,6 @@ new class extends Component {
                     copyable
                     viewable
                 />
-            </div>
-
-            <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
-                <flux:modal.close>
-                    <flux:button variant="ghost" class="w-full sm:w-auto">Close</flux:button>
-                </flux:modal.close>
-                <flux:modal.trigger name="edit-password-{{ $password->id }}">
-                    <flux:button variant="primary" class="w-full sm:w-auto">Edit</flux:button>
-                </flux:modal.trigger>
             </div>
         </div>
     </flux:modal>
