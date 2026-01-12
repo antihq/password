@@ -118,7 +118,7 @@ new class extends Component {
                     <flux:button variant="ghost" class="w-full sm:w-auto">Close</flux:button>
                 </flux:modal.close>
                 <flux:modal.trigger name="edit-password-{{ $password->id }}">
-                    <flux:button variant="primary">Edit</flux:button>
+                    <flux:button variant="primary" class="w-full sm:w-auto">Edit</flux:button>
                 </flux:modal.trigger>
             </div>
         </div>
@@ -133,11 +133,11 @@ new class extends Component {
                     <flux:text>Update your password details below.</flux:text>
                 </div>
 
-                <flux:input wire:key="edit-name" wire:model="name" label="Name" type="text" required autofocus />
+                <flux:input wire:model="name" label="Name" type="text" required autofocus />
 
-                <flux:input wire:key="edit-username" wire:model="username" label="Username" type="text" required />
+                <flux:input wire:model="username" label="Username" type="text" required />
 
-                <flux:input wire:key="edit-password" wire:model="newPassword" label="Password" type="text" required />
+                <flux:input wire:model="newPassword" label="Password" type="text" required />
             </div>
 
             <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
