@@ -63,11 +63,11 @@ new class extends Component {
                 @if($password->avatar_url)
                     <flux:avatar :src="$password->avatar_url" size="xs" class="bg-transparent" />
                 @else
-                    <flux:avatar :src="$password->avatar_url" size="xs">
+                    <flux:avatar size="xs">
                         <x-boring-avatar
                             :name="$password->name"
                             variant="marble"
-                            class="[:where(&)]:size-7 sm:[:where(&)]:size-6 rounded-[var(--avatar-radius)]"
+                            class="size-7 sm:size-6 rounded-[var(--avatar-radius)]"
                             square
                         />
                     </flux:avatar>
@@ -107,7 +107,21 @@ new class extends Component {
         <div class="space-y-8">
             <div class="space-y-6">
                 <div class="flex items-center justify-between flex-wrap gap-2">
-                    <flux:heading size="lg">{{ $password->name }}</flux:heading>
+                    <div class="flex items-center gap-4">
+                        @if($password->avatar_url)
+                            <flux:avatar :src="$password->avatar_url" size="md" />
+                        @else
+                            <flux:avatar size="md">
+                                <x-boring-avatar
+                                    :name="$password->name"
+                                    variant="marble"
+                                    class="size-11 sm:size-10 rounded-[var(--avatar-radius)]"
+                                    square
+                                />
+                            </flux:avatar>
+                        @endif
+                        <flux:heading size="lg">{{ $password->name }}</flux:heading>
+                    </div>
                     <flux:modal.trigger name="edit-password-{{ $password->id }}">
                         <flux:button class="-my-0.5">Edit</flux:button>
                     </flux:modal.trigger>
