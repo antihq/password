@@ -126,6 +126,7 @@ new class extends Component {
                         label="Website"
                         readonly
                         variant="filled"
+                        copyable
                     >
                         <x-slot name="iconTrailing">
                             <a href="{{ $password->website }}" target="_blank" rel="noopener noreferrer">
