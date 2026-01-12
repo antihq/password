@@ -17,8 +17,15 @@ class TeamFactory extends Factory
      */
     public function definition(): array
     {
+        $departments = [
+            'Engineering', 'Marketing', 'Sales', 'Product',
+            'Design', 'HR', 'Finance', 'Operations',
+            'Customer Support', 'Legal', 'Data Science', 'DevOps',
+            'Research', 'Content', 'QA', 'Security',
+        ];
+
         return [
-            'name' => $this->faker->unique()->company(),
+            'name' => fake()->randomElement($departments),
             'user_id' => User::factory(),
             'personal_team' => true,
         ];

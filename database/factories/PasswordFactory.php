@@ -12,8 +12,24 @@ class PasswordFactory extends Factory
 {
     public function definition(): array
     {
+        $services = [
+            'GitHub', 'GitLab', 'Bitbucket',
+            'Gmail', 'Outlook', 'Proton Mail',
+            'Netflix', 'Amazon Prime', 'Disney+', 'Hulu',
+            'Twitter', 'LinkedIn', 'Instagram', 'Facebook',
+            'Stripe', 'PayPal', 'Square',
+            'AWS', 'DigitalOcean', 'Heroku', 'Vercel',
+            'Slack', 'Discord', 'Zoom', 'Teams',
+            'Notion', 'Trello', 'Asana', 'Jira',
+            'Spotify', 'Apple Music', 'YouTube Premium',
+            'Dropbox', 'Google Drive', 'OneDrive',
+            '1Password', 'LastPass', 'Bitwarden',
+            'Shopify', 'WooCommerce', 'Magento',
+            'Salesforce', 'HubSpot', 'Pipedrive',
+        ];
+
         return [
-            'name' => fake()->company(),
+            'name' => fake()->randomElement($services),
             'username' => fake()->userName(),
             'password' => fake()->password(),
             'team_id' => Team::factory(),
