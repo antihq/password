@@ -6,26 +6,24 @@ use Livewire\Component;
 new class extends Component {
     public Password $password;
 
-    public bool $isEditing = false;
+    public string $name = '';
 
-    public string $editName = '';
+    public string $username = '';
 
-    public string $editUsername = '';
+    public string $newPassword = '';
 
-    public string $editPassword = '';
-
-    public function enterEditMode(): void
+    public function mount(): void
     {
-        $this->isEditing = true;
-        $this->editName = $this->password->name;
-        $this->editUsername = $this->password->username;
-        $this->editPassword = $this->password->password;
+        $this->name = $this->password->name;
+        $this->username = $this->password->username;
+        $this->newPassword = $this->password->password;
     }
 
     public function cancelEdit(): void
     {
-        $this->isEditing = false;
-        $this->reset(['editName', 'editUsername', 'editPassword']);
+        $this->name = $this->password->name;
+        $this->username = $this->password->username;
+        $this->newPassword = $this->password->password;
     }
 
     public function save(): void
@@ -33,18 +31,16 @@ new class extends Component {
         $this->authorize('update', $this->password);
 
         $this->validate([
-            'editName' => ['required', 'string', 'max:255'],
-            'editUsername' => ['required', 'string', 'max:255'],
-            'editPassword' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
+            'newPassword' => ['required', 'string'],
         ]);
 
         $this->password->update([
-            'name' => $this->editName,
-            'username' => $this->editUsername,
-            'password' => $this->editPassword,
+            'name' => $this->name,
+            'username' => $this->username,
+            'password' => $this->newPassword,
         ]);
-
-        $this->isEditing = false;
     }
 };
 ?>
@@ -64,93 +60,6 @@ new class extends Component {
                 <flux:text size="sm">
                     {{ $password->username }}
                 </flux:text>
-                <flux:modal name="view-password-{{ $password->id }}" class="w-full sm:max-w-lg">
-                    <form wire:submit="save" class="space-y-8">
-                        <div class="space-y-6">
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <flux:heading size="lg">
-                                        {{ $isEditing ? 'Edit password' : 'View password' }}
-                                    </flux:heading>
-                                </div>
-                                <flux:text>
-                                    {{ $isEditing ? 'Update your password details below.' : 'View your password details below.' }}
-                                </flux:text>
-                            </div>
-
-                            @if ($isEditing)
-                                <flux:input
-                                    wire:key="edit-name"
-                                    wire:model="editName"
-                                    label="Name"
-                                    type="text"
-                                    required
-                                    autofocus
-                                />
-
-                                <flux:input
-                                    wire:key="edit-username"
-                                    wire:model="editUsername"
-                                    label="Username"
-                                    type="text"
-                                    required
-                                />
-
-                                <flux:input
-                                    wire:key="edit-password"
-                                    wire:model="editPassword"
-                                    label="Password"
-                                    type="text"
-                                    required
-                                />
-                            @else
-                                <flux:input
-                                    wire:key="view-name"
-                                    :value="$password->name"
-                                    label="Name"
-                                    readonly
-                                    variant="filled"
-                                />
-
-                                <flux:input
-                                    wire:key="view-username"
-                                    :value="$password->username"
-                                    label="Username"
-                                    readonly
-                                    variant="filled"
-                                    copyable
-                                />
-
-                                <flux:input
-                                    wire:key="view-password"
-                                    :value="$password->password"
-                                    label="Password"
-                                    type="password"
-                                    readonly
-                                    variant="filled"
-                                    copyable
-                                    viewable
-                                />
-                            @endif
-                        </div>
-
-                        <div
-                            class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto"
-                        >
-                            @if ($isEditing)
-                                <flux:button wire:click="cancelEdit" variant="ghost" class="w-full sm:w-auto">
-                                    Cancel
-                                </flux:button>
-                                <flux:button type="submit" variant="primary">Save</flux:button>
-                            @else
-                                <flux:modal.close>
-                                    <flux:button variant="ghost" class="w-full sm:w-auto">Close</flux:button>
-                                </flux:modal.close>
-                                <flux:button wire:click="enterEditMode">Edit</flux:button>
-                            @endif
-                        </div>
-                    </form>
-                </flux:modal>
             </div>
         </div>
         <div class="flex shrink-0 items-center gap-x-4">
@@ -158,6 +67,12 @@ new class extends Component {
                 <flux:button icon="ellipsis-horizontal" variant="ghost" square class="-mr-2" />
 
                 <flux:menu>
+                    <flux:modal.trigger name="view-password-{{ $password->id }}">
+                        <flux:menu.item icon="eye">View</flux:menu.item>
+                    </flux:modal.trigger>
+                    <flux:modal.trigger name="edit-password-{{ $password->id }}">
+                        <flux:menu.item icon="pencil">Edit</flux:menu.item>
+                    </flux:modal.trigger>
                     <flux:modal.trigger name="delete-password-{{ $password->id }}">
                         <flux:menu.item variant="danger" icon="trash">Delete</flux:menu.item>
                     </flux:modal.trigger>
@@ -165,6 +80,74 @@ new class extends Component {
             </flux:dropdown>
         </div>
     </div>
+    <flux:modal name="view-password-{{ $password->id }}" class="w-full sm:max-w-lg">
+        <div class="space-y-8">
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <flux:heading size="lg">View password</flux:heading>
+                    </div>
+                    <flux:text>View your password details below.</flux:text>
+                </div>
+
+                <flux:input wire:key="view-name" :value="$password->name" label="Name" readonly variant="filled" />
+
+                <flux:input
+                    wire:key="view-username"
+                    :value="$password->username"
+                    label="Username"
+                    readonly
+                    variant="filled"
+                    copyable
+                />
+
+                <flux:input
+                    wire:key="view-password"
+                    :value="$password->password"
+                    label="Password"
+                    type="password"
+                    readonly
+                    variant="filled"
+                    copyable
+                    viewable
+                />
+            </div>
+
+            <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
+                <flux:modal.close>
+                    <flux:button variant="ghost" class="w-full sm:w-auto">Close</flux:button>
+                </flux:modal.close>
+                <flux:modal.trigger name="edit-password-{{ $password->id }}">
+                    <flux:button variant="primary">Edit</flux:button>
+                </flux:modal.trigger>
+            </div>
+        </div>
+    </flux:modal>
+    <flux:modal name="edit-password-{{ $password->id }}" class="w-full sm:max-w-lg">
+        <form wire:submit="save" class="space-y-8">
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <flux:heading size="lg">Edit password</flux:heading>
+                    </div>
+                    <flux:text>Update your password details below.</flux:text>
+                </div>
+
+                <flux:input wire:key="edit-name" wire:model="name" label="Name" type="text" required autofocus />
+
+                <flux:input wire:key="edit-username" wire:model="username" label="Username" type="text" required />
+
+                <flux:input wire:key="edit-password" wire:model="newPassword" label="Password" type="text" required />
+            </div>
+
+            <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
+                <flux:modal.close>
+                    <flux:button wire:click="cancelEdit" variant="ghost" class="w-full sm:w-auto">Cancel</flux:button>
+                </flux:modal.close>
+                <flux:button type="submit" variant="primary">Save</flux:button>
+            </div>
+        </form>
+    </flux:modal>
     <flux:modal name="delete-password-{{ $password->id }}" class="w-full max-w-xs sm:max-w-md">
         <div class="space-y-6 sm:space-y-4">
             <div>
