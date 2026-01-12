@@ -130,7 +130,7 @@ new #[Title('Passwords')] class extends Component
 
                 <flux:input wire:model="password" label="Password" type="password" required viewable copyable>
                     <x-slot name="iconTrailing">
-                        <flux:button size="sm" variant="subtle" icon="sparkles" class="-mr-1" wire:click="generatePassword" />
+                        <flux:button size="sm" variant="subtle" icon="sparkles" icon:variant="micro" class="-mr-1" square wire:click="generatePassword" />
                     </x-slot>
                 </flux:input>
             </div>
