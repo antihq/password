@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Password;
+use Flux\Flux;
 use Livewire\Component;
 
 new class extends Component {
@@ -41,6 +42,8 @@ new class extends Component {
             'username' => $this->username,
             'password' => $this->newPassword,
         ]);
+
+        Flux::modal("edit-password-{$this->password->id}")->close();
     }
 };
 ?>
