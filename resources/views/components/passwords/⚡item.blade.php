@@ -110,7 +110,7 @@ new class extends Component
     </div>
     <div class="flex shrink-0 items-center gap-x-4">
         <flux:dropdown align="end">
-            <flux:button icon="ellipsis-horizontal" variant="ghost" square class="-mr-2 -mt-1 sm:-mt-0.5" />
+            <flux:button icon="ellipsis-horizontal" variant="ghost" square class="-mr-2" />
 
             <flux:menu>
                 <flux:menu.item variant="danger" icon="trash" wire:click="$parent.delete({{ $password->id }})">
