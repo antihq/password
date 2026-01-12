@@ -41,11 +41,11 @@ if ($flyout) {
 } else {
     $classes = Flux::classes()
         ->add(match ($variant) {
-            default => 'p-6 [:where(&)]:max-w-xl [:where(&)]:min-w-xs shadow-lg rounded-xl max-sm:fixed max-sm:m-0 max-sm:mt-auto max-sm:min-w-[100vw] max-sm:border-t max-sm:border-transparent max-sm:dark:border-zinc-700',
-            'bare' => 'max-sm:fixed max-sm:m-0 max-sm:mt-auto max-sm:min-w-[100vw] max-sm:border-t max-sm:border-transparent max-sm:dark:border-zinc-700',
+            default => 'p-8 [:where(&)]:max-w-xl [:where(&)]:min-w-xs max-sm:fixed max-sm:m-0 max-sm:mt-auto max-sm:min-w-[100vw]',
+            'bare' => 'max-sm:fixed max-sm:m-0 max-sm:mt-auto max-sm:min-w-[100vw]',
         })
         ->add(match ($variant) {
-            default => 'bg-white dark:bg-zinc-800 ring ring-black/5 dark:ring-zinc-700 shadow-lg rounded-xl',
+            default => 'bg-white dark:bg-zinc-900 ring-1 ring-zinc-950/10 dark:ring-white/10 shadow-lg rounded-t-3xl sm:rounded-2xl',
             'bare' => 'bg-transparent',
         });
 }
