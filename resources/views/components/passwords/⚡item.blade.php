@@ -174,7 +174,7 @@ new class extends Component {
                     <flux:accordion>
                         <flux:accordion.item heading="Notes">
                             <x-prose>
-                                {!! $password->notes !!}
+                                {!! $password->sanitizedNotes() !!}
                             </x-prose>
                         </flux:accordion.item>
                     </flux:accordion>

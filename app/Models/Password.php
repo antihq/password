@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Tiptap\Editor;
+use Tiptap\Extensions\StarterKit;
+use Tiptap\Marks\Link;
 
 class Password extends Model
 {
@@ -36,6 +39,17 @@ class Password extends Model
 
             return $domain ? "https://unavatar.io/{$domain}" : null;
         });
+    }
+
+    public function sanitizedNotes(): ?string
+    {
+        if (empty($this->notes)) {
+            return null;
+        }
+
+        return (new Editor([
+            'extensions' => [new StarterKit, new Link],
+        ]))->sanitize($this->notes);
     }
 
     protected function casts(): array
