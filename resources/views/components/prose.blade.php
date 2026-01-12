@@ -1,6 +1,6 @@
 <div
     @class([
-        'text-base leading-[1.7142857] text-zinc-700 dark:text-zinc-300',
+        'text-base leading-[1.7142857] text-zinc-950 dark:text-white',
         'sm:text-sm',
         '[&_a]:font-medium [&_a]:text-blue-600 dark:[&_a]:text-[#6791fd]',
         '[&_code:not(pre_code)]:inline-block [&_code:not(pre_code)]:rounded-lg [&_code:not(pre_code)]:bg-zinc-800/10 [&_code:not(pre_code)]:px-1.5 [&_code:not(pre_code)]:font-mono [&_code:not(pre_code)]:text-[.8275rem] [&_code:not(pre_code)]:whitespace-nowrap',
