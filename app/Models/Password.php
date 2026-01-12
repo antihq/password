@@ -15,6 +15,7 @@ class Password extends Model
         'name',
         'username',
         'password',
+        'website',
     ];
 
     public function team(): BelongsTo

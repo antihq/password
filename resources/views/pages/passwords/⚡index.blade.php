@@ -15,6 +15,8 @@ new #[Title('Passwords')] class extends Component
 
     public $password = '';
 
+    public $website = '';
+
     public function mount()
     {
         $this->generatePassword();
@@ -55,12 +57,14 @@ new #[Title('Passwords')] class extends Component
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string'],
+            'website' => ['nullable', 'url', 'max:255'],
         ]);
 
         $this->team->passwords()->create([
             'name' => $this->pull('name'),
             'username' => $this->pull('username'),
             'password' => $this->pull('password'),
+            'website' => $this->pull('website'),
         ]);
 
         $this->modal('create-password')->close();
@@ -127,6 +131,8 @@ new #[Title('Passwords')] class extends Component
                 <flux:input wire:model="name" label="Name" type="text" required autofocus />
 
                 <flux:input wire:model="username" label="Username" type="text" required />
+
+                <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
 
                 <flux:input wire:model="password" label="Password" type="password" required viewable copyable>
                     <x-slot name="iconTrailing">

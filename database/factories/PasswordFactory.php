@@ -32,6 +32,7 @@ class PasswordFactory extends Factory
             'name' => fake()->randomElement($services),
             'username' => fake()->userName(),
             'password' => fake()->password(),
+            'website' => fake()->url(),
             'team_id' => Team::factory(),
         ];
     }

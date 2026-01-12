@@ -13,11 +13,14 @@ new class extends Component {
 
     public string $newPassword = '';
 
+    public string $website = '';
+
     public function mount(): void
     {
         $this->name = $this->password->name;
         $this->username = $this->password->username;
         $this->newPassword = $this->password->password;
+        $this->website = $this->password->website ?? '';
     }
 
     public function cancelEdit(): void
@@ -25,6 +28,7 @@ new class extends Component {
         $this->name = $this->password->name;
         $this->username = $this->password->username;
         $this->newPassword = $this->password->password;
+        $this->website = $this->password->website ?? '';
     }
 
     public function save(): void
@@ -35,12 +39,14 @@ new class extends Component {
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
             'newPassword' => ['required', 'string'],
+            'website' => ['nullable', 'url', 'max:255'],
         ]);
 
         $this->password->update([
             'name' => $this->name,
             'username' => $this->username,
             'password' => $this->newPassword,
+            'website' => $this->website ?: null,
         ]);
 
         Flux::modal("edit-password-{$this->password->id}")->close();
@@ -102,6 +108,22 @@ new class extends Component {
                     copyable
                 />
 
+                @if($password->website)
+                    <flux:input
+                        wire:key="view-website"
+                        :value="$password->website"
+                        label="Website"
+                        readonly
+                        variant="filled"
+                    >
+                        <x-slot name="iconTrailing">
+                            <a href="{{ $password->website }}" target="_blank" rel="noopener noreferrer">
+                                <flux:button size="sm" variant="subtle" icon="arrow-top-right-on-square" icon:variant="micro" class="-mr-1" square />
+                            </a>
+                        </x-slot>
+                    </flux:input>
+                @endif
+
                 <flux:input
                     wire:key="view-password"
                     :value="$password->password"
@@ -128,6 +150,8 @@ new class extends Component {
                 <flux:input wire:model="name" label="Name" type="text" required />
 
                 <flux:input wire:model="username" label="Username" type="text" required />
+
+                <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
 
                 <flux:input wire:model="newPassword" label="Password" type="text" required />
             </div>
