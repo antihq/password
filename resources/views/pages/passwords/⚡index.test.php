@@ -120,3 +120,13 @@ it('cannot delete password from other team', function () {
         ->assertStatus(200)
         ->assertDontSee($password->name);
 });
+
+it('displays delete confirmation modal for password', function () {
+    $password = Password::factory()->create(['team_id' => $this->team->id]);
+
+    $this->actingAs($this->user)
+        ->get(route('passwords.index'))
+        ->assertStatus(200)
+        ->assertSee($password->name)
+        ->assertSee('delete-password-'.$password->id);
+});
