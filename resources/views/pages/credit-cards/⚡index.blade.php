@@ -179,7 +179,7 @@ new #[Title('Credit Cards')] class extends Component
                     @endforeach
                 </flux:autocomplete>
 
-                <flux:input wire:model="card_number" label="Card number" type="password" required viewable mask:dynamic="$input.startsWith('34') || $input.startsWith('37') ? '9999 999999 99999' : '9999 9999 9999 9999'" />
+                <flux:input wire:model="card_number" label="Card number" required mask:dynamic="$input.startsWith('34') || $input.startsWith('37') ? '9999 999999 99999' : '9999 9999 9999 9999'" />
 
                 <div class="grid gap-4 sm:grid-cols-2">
                     <flux:input wire:model="expiry" mask="99/99" label="Expiry" placeholder="MM/YY" required />
