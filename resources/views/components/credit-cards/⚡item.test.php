@@ -28,7 +28,7 @@ it('can cancel edit mode', function () {
         ->test('credit-cards.item', ['creditCard' => $creditCard]);
 
     $component->set('name_on_card', 'Modified Name')
-        ->set('card_number', '5555555555554444')
+        ->set('card_number', '5555 5555 5555 4444')
         ->set('expiry', '06/28')
         ->set('cvv', '456')
         ->set('name', 'Modified Card');
@@ -48,7 +48,7 @@ it('can update credit card from modal', function () {
     Livewire::actingAs($this->user)
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Updated Name')
-        ->set('card_number', '5555555555554444')
+        ->set('card_number', '5555 5555 5555 4444')
         ->set('expiry', '06/28')
         ->set('cvv', '456')
         ->set('name', 'Updated Card')
@@ -87,7 +87,7 @@ it('validates expiry month is between 1 and 12 when updating', function () {
     Livewire::actingAs($this->user)
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Test Name')
-        ->set('card_number', '4242424242424242')
+        ->set('card_number', '4242 4242 4242 4242')
         ->set('expiry', '13/27')
         ->set('cvv', '123')
         ->call('save')
@@ -101,7 +101,7 @@ it('validates expiry year is not in the past when updating', function () {
     Livewire::actingAs($this->user)
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Test Name')
-        ->set('card_number', '4242424242424242')
+        ->set('card_number', '4242 4242 4242 4242')
         ->set('expiry', '12/'.$pastYear)
         ->set('cvv', '123')
         ->call('save')
@@ -114,7 +114,7 @@ it('validates cvv max length when updating', function () {
     Livewire::actingAs($this->user)
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Test Name')
-        ->set('card_number', '4242424242424242')
+        ->set('card_number', '4242 4242 4242 4242')
         ->set('expiry', '12/27')
         ->set('cvv', '12345')
         ->call('save')
@@ -130,7 +130,7 @@ it('can save credit card with all fields', function () {
     Livewire::actingAs($this->user)
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Updated Name')
-        ->set('card_number', '4242424242424242')
+        ->set('card_number', '4242 4242 4242 4242')
         ->set('expiry', '12/27')
         ->set('cvv', '123')
         ->set('name', 'Business Mastercard')
@@ -149,7 +149,7 @@ it('can save credit card with notes', function () {
     Livewire::actingAs($this->user)
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Test Name')
-        ->set('card_number', '4242424242424242')
+        ->set('card_number', '4242 4242 4242 4242')
         ->set('expiry', '12/27')
         ->set('cvv', '123')
         ->set('notes', 'Updated notes')
@@ -157,6 +157,34 @@ it('can save credit card with notes', function () {
 
     $creditCard->refresh();
     expect($creditCard->notes)->toBe('Updated notes');
+});
+
+it('can update Amex credit card', function () {
+    $creditCard = CreditCard::factory()->create([
+        'team_id' => $this->user->currentTeam->id,
+        'card_number' => '378282246310005',
+    ]);
+
+    Livewire::actingAs($this->user)
+        ->test('credit-cards.item', ['creditCard' => $creditCard])
+        ->set('name_on_card', 'Updated Name')
+        ->set('card_number', '3714 496353 98431')
+        ->set('expiry', '06/29')
+        ->set('cvv', '1234')
+        ->set('name', 'Updated Amex')
+        ->call('save');
+
+    $this->assertDatabaseHas('credit_cards', [
+        'id' => $creditCard->id,
+        'name_on_card' => 'Updated Name',
+        'expiry_month' => 6,
+        'expiry_year' => 2029,
+        'name' => 'Updated Amex',
+    ]);
+
+    $creditCard->refresh();
+    expect($creditCard->card_number)->toBe('371449635398431');
+    expect($creditCard->cvv)->toBe('1234');
 });
 
 it('shows existing cardholder names for autocomplete', function () {

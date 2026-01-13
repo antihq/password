@@ -60,13 +60,29 @@ new class extends Component
             ->values();
     }
 
+    #[Computed]
+    public function formattedCardNumber(): string
+    {
+        $number = preg_replace('/\s+/', '', $this->creditCard->card_number);
+
+        if (str_starts_with($number, '34') || str_starts_with($number, '37')) {
+            return implode(' ', [
+                substr($number, 0, 4),
+                substr($number, 4, 6),
+                substr($number, 10, 5),
+            ]);
+        }
+
+        return implode(' ', str_split($number, 4));
+    }
+
     public function save(): void
     {
         $this->authorize('update', $this->creditCard);
 
         $this->validate([
             'name_on_card' => ['required', 'string', 'max:255'],
-            'card_number' => ['required', 'string'],
+            'card_number' => ['required', 'string', 'regex:/^(\d{4}\s?){3}\d{4}$|^(\d{4}\s?\d{6}\s?\d{5})$|^\d{15,16}$/'],
             'expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
             'cvv' => ['required', 'string', 'max:4'],
             'name' => ['required', 'string', 'max:255'],
@@ -87,7 +103,7 @@ new class extends Component
 
         $this->creditCard->update([
             'name_on_card' => $this->name_on_card,
-            'card_number' => $this->card_number,
+            'card_number' => preg_replace('/\s+/', '', $this->card_number),
             'expiry_month' => $month,
             'expiry_year' => $year,
             'cvv' => $this->cvv,
@@ -161,7 +177,7 @@ new class extends Component
 
                  <flux:input
                     wire:key="view-card-number"
-                    :value="$creditCard->card_number"
+                    :value="$this->formattedCardNumber"
                     label="Card number"
                     readonly
                     variant="filled"
@@ -230,7 +246,7 @@ new class extends Component
                     @endforeach
                 </flux:autocomplete>
 
-                <flux:input wire:model="card_number" label="Card number" type="password" required viewable copyable />
+                <flux:input wire:model="card_number" label="Card number" type="password" required viewable copyable mask:dynamic="$input.startsWith('34') || $input.startsWith('37') ? '9999 999999 99999' : '9999 9999 9999 9999'" />
 
                 <div class="grid gap-4 sm:grid-cols-2">
                     <flux:input wire:model="expiry" mask="99/99" label="Expiry" placeholder="MM/YY" required />

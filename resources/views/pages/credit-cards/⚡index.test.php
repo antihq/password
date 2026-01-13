@@ -35,7 +35,7 @@ it('can create a credit card', function () {
     Livewire::actingAs($this->user)
         ->test('pages::credit-cards.index')
         ->set('name_on_card', 'John Doe')
-        ->set('card_number', '4242424242424242')
+        ->set('card_number', '4242 4242 4242 4242')
         ->set('expiry', '12/27')
         ->set('cvv', '123')
         ->set('name', 'Personal Visa')
@@ -68,7 +68,7 @@ it('validates expiry month is between 1 and 12', function () {
     Livewire::actingAs($this->user)
         ->test('pages::credit-cards.index')
         ->set('name_on_card', 'John Doe')
-        ->set('card_number', '4242424242424242')
+        ->set('card_number', '4242 4242 4242 4242')
         ->set('expiry', '13/27')
         ->set('cvv', '123')
         ->call('create')
@@ -82,7 +82,7 @@ it('validates expiry year is not in the past', function () {
         ->test('pages::credit-cards.index')
         ->set('name', 'Personal Visa')
         ->set('name_on_card', 'John Doe')
-        ->set('card_number', '4242424242424242')
+        ->set('card_number', '4242 4242 4242 4242')
         ->set('expiry', '12/'.$pastYear)
         ->set('cvv', '123')
         ->call('create')
@@ -93,7 +93,7 @@ it('validates cvv max length', function () {
     Livewire::actingAs($this->user)
         ->test('pages::credit-cards.index')
         ->set('name_on_card', 'John Doe')
-        ->set('card_number', '4242424242424242')
+        ->set('card_number', '4242 4242 4242 4242')
         ->set('expiry', '12/27')
         ->set('cvv', '12345')
         ->call('create')
@@ -104,7 +104,7 @@ it('can create a credit card with name and notes', function () {
     Livewire::actingAs($this->user)
         ->test('pages::credit-cards.index')
         ->set('name_on_card', 'Jane Smith')
-        ->set('card_number', '5555555555554444')
+        ->set('card_number', '5555 5555 5555 4444')
         ->set('expiry', '06/28')
         ->set('cvv', '456')
         ->set('name', 'Personal Visa')
@@ -116,6 +116,28 @@ it('can create a credit card with name and notes', function () {
     $this->assertDatabaseHas('credit_cards', [
         'name_on_card' => 'Jane Smith',
         'name' => 'Personal Visa',
+        'team_id' => $this->team->id,
+    ]);
+});
+
+it('can create an Amex credit card', function () {
+    Livewire::actingAs($this->user)
+        ->test('pages::credit-cards.index')
+        ->set('name_on_card', 'John Doe')
+        ->set('card_number', '3782 822463 10005')
+        ->set('expiry', '12/28')
+        ->set('cvv', '1234')
+        ->set('name', 'Personal Amex')
+        ->call('create')
+        ->assertSet('name_on_card', '')
+        ->assertSet('card_number', '')
+        ->assertSet('expiry', '')
+        ->assertSet('name', '');
+
+    $this->assertDatabaseHas('credit_cards', [
+        'name_on_card' => 'John Doe',
+        'expiry_month' => 12,
+        'expiry_year' => 2028,
         'team_id' => $this->team->id,
     ]);
 });

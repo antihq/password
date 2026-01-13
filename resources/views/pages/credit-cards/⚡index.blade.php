@@ -61,7 +61,7 @@ new #[Title('Credit Cards')] class extends Component
 
         $this->validate([
             'name_on_card' => ['required', 'string', 'max:255'],
-            'card_number' => ['required', 'string'],
+            'card_number' => ['required', 'string', 'regex:/^(\d{4}\s?){3}\d{4}$|^(\d{4}\s?\d{6}\s?\d{5})$|^\d{15,16}$/'],
             'expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
             'cvv' => ['required', 'string', 'max:4'],
             'name' => ['required', 'string', 'max:255'],
@@ -80,7 +80,7 @@ new #[Title('Credit Cards')] class extends Component
 
         $this->team->creditCards()->create([
             'name_on_card' => $this->pull('name_on_card'),
-            'card_number' => $this->pull('card_number'),
+            'card_number' => preg_replace('/\s+/', '', $this->pull('card_number')),
             'expiry_month' => $month,
             'expiry_year' => $year,
             'cvv' => $this->pull('cvv'),
@@ -175,7 +175,7 @@ new #[Title('Credit Cards')] class extends Component
                     @endforeach
                 </flux:autocomplete>
 
-                <flux:input wire:model="card_number" label="Card number" type="password" required />
+                <flux:input wire:model="card_number" label="Card number" type="password" required viewable mask:dynamic="$input.startsWith('34') || $input.startsWith('37') ? '9999 999999 99999' : '9999 9999 9999 9999'" />
 
                 <div class="grid gap-4 sm:grid-cols-2">
                     <flux:input wire:model="expiry" mask="99/99" label="Expiry" placeholder="MM/YY" required />
