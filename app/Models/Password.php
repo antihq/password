@@ -41,6 +41,13 @@ class Password extends Model
         });
     }
 
+    protected function websiteHostname(): Attribute
+    {
+        return Attribute::get(function (): ?string {
+            return $this->website ? parse_url($this->website, PHP_URL_HOST) : null;
+        });
+    }
+
     public function sanitizedNotes(): ?string
     {
         return $this->notes

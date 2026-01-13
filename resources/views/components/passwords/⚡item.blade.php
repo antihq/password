@@ -21,9 +21,16 @@ new class extends Component
 
     public string $notes = '';
 
+    public bool $viewPassword = false;
+
     public function mount(): void
     {
         $this->resetFormFields();
+    }
+
+    public function toggleViewPassword(): void
+    {
+        $this->viewPassword = !$this->viewPassword;
     }
 
     private function resetFormFields(): void
@@ -167,49 +174,67 @@ new class extends Component
                     </flux:modal.trigger>
                 </div>
 
-                <flux:input
-                    wire:key="view-username"
-                    :value="$password->username"
-                    label="Username"
-                    readonly
-                    variant="filled"
-                    copyable
-                />
-
-                <flux:input
-                    wire:key="view-password"
-                    :value="$password->password"
-                    label="Password"
-                    type="password"
-                    readonly
-                    variant="filled"
-                    copyable
-                    viewable
-                />
-
-                @if ($password->website)
-                    <flux:input
-                        wire:key="view-website"
-                        :value="$password->website"
-                        label="Website"
-                        readonly
-                        variant="filled"
-                        copyable
-                    >
-                        <x-slot name="iconTrailing">
-                            <a href="{{ $password->website }}" target="_blank" rel="noopener noreferrer">
+                <div class="divide-y divide-zinc-950/5 dark:divide-white/5 space-y-3">
+                    <div class="pb-3">
+                        <div class="flex items-end justify-between gap-2">
+                            <div class="space-y-1">
+                                <flux:text>Username</flux:text>
+                                <flux:text variant="strong">{{ $password->username }}</flux:text>
+                            </div>
+                            <flux:button
+                                variant="subtle"
+                                icon="clipboard-document"
+                                icon:variant="micro"
+                                inset="right"
+                                square
+                                x-on:click="navigator.clipboard?.writeText('{{ $password->username }}')"
+                            />
+                        </div>
+                    </div>
+                    <div class="pb-3">
+                        <div class="flex items-end justify-between gap-2">
+                            <div class="space-y-1">
+                                <flux:text>Password</flux:text>
+                                <flux:text variant="strong">{{ $viewPassword ? $password->password : '••••••••••••' }}</flux:text>
+                            </div>
+                            <div class="flex gap-0.5">
                                 <flux:button
-                                    size="sm"
                                     variant="subtle"
-                                    icon="arrow-top-right-on-square"
+                                    :icon="$viewPassword ? 'eye-slash' : 'eye'"
                                     icon:variant="micro"
-                                    class="-mr-1"
                                     square
+                                    wire:click="toggleViewPassword"
                                 />
-                            </a>
-                        </x-slot>
-                    </flux:input>
-                @endif
+                                <flux:button
+                                    variant="subtle"
+                                    icon="clipboard-document"
+                                    icon:variant="micro"
+                                    square
+                                    inset="right"
+                                    x-on:click="navigator.clipboard?.writeText('{{ $password->password }}')"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pb-3">
+                        <div class="flex items-end justify-between gap-2">
+                            <div class="space-y-1">
+                                <flux:text>Website</flux:text>
+                                <flux:text variant="strong"><flux:link :href="$password->website">{{ $password->website_hostname }}</flux:link></flux:text>
+                            </div>
+                            <div class="flex gap-0.5">
+                                <flux:button
+                                    variant="subtle"
+                                    icon="clipboard-document"
+                                    icon:variant="micro"
+                                    square
+                                    inset="right"
+                                    x-on:click="navigator.clipboard?.writeText('{{ $password->website }}')"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 @if ($password->notes)
                     <flux:accordion>
