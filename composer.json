@@ -1,13 +1,17 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/livewire-starter-kit",
+    "name": "antihq/password",
     "type": "project",
-    "description": "The official Laravel starter kit for Livewire.",
+    "homepage": "https://github.com/antihq/password",
+    "description": "A secure password and credit card management application with team collaboration.",
     "keywords": [
         "laravel",
-        "framework"
+        "password-manager",
+        "team-collaboration",
+        "livewire",
+        "credit-cards"
     ],
-    "license": "MIT",
+    "license": "OSAASY",
     "require": {
         "php": "^8.2",
         "beyondcode/laravel-server-timing": "^1.6",
