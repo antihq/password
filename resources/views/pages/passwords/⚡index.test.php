@@ -130,3 +130,15 @@ it('displays delete confirmation modal for password', function () {
         ->assertSee($password->name)
         ->assertSee('delete-password-'.$password->id);
 });
+
+it('regenerates password after creating a new password', function () {
+    Livewire::actingAs($this->user)
+        ->test('pages::passwords.index')
+        ->assertSet('password', fn ($value) => ! empty($value))
+        ->set('name', 'Test Password')
+        ->set('username', 'test@example.com')
+        ->set('website', 'https://example.com')
+        ->set('notes', 'Test notes')
+        ->call('create')
+        ->assertSet('password', fn ($value) => ! empty($value));
+});

@@ -67,7 +67,7 @@ new #[Title('Passwords')] class extends Component
         $this->password = sprintf('%s-%s-%s', $part1, $part2, $part3);
     }
 
-    public function create()
+    public function create(): void
     {
         $this->authorize('create', Password::class);
 
