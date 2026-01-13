@@ -35,7 +35,7 @@ new #[Title('Passwords')] class extends Component
     {
         return $this->team
             ->passwords()
-            ->latest()
+            ->orderBy('name')
             ->get();
     }
 
