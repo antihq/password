@@ -183,12 +183,15 @@ new class extends Component
                             </div>
                             <flux:button
                                 variant="subtle"
-                                icon="clipboard-document"
-                                icon:variant="micro"
                                 inset="right"
                                 square
-                                x-on:click="navigator.clipboard?.writeText('{{ $password->username }}')"
-                            />
+                                x-data="{ copied: false }"
+                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $password->username }}'); setTimeout(() => copied = false, 2000)"
+                                x-bind:data-copyable-copied="copied"
+                            >
+                                <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
+                                <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                            </flux:button>
                         </div>
                     </div>
                     <div class="pb-3">
@@ -207,12 +210,15 @@ new class extends Component
                                 />
                                 <flux:button
                                     variant="subtle"
-                                    icon="clipboard-document"
-                                    icon:variant="micro"
-                                    square
                                     inset="right"
-                                    x-on:click="navigator.clipboard?.writeText('{{ $password->password }}')"
-                                />
+                                    square
+                                    x-data="{ copied: false }"
+                                    x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $password->password }}'); setTimeout(() => copied = false, 2000)"
+                                    x-bind:data-copyable-copied="copied"
+                                >
+                                    <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
+                                    <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                </flux:button>
                             </div>
                         </div>
                     </div>
@@ -225,12 +231,15 @@ new class extends Component
                             <div class="flex gap-0.5">
                                 <flux:button
                                     variant="subtle"
-                                    icon="clipboard-document"
-                                    icon:variant="micro"
-                                    square
                                     inset="right"
-                                    x-on:click="navigator.clipboard?.writeText('{{ $password->website }}')"
-                                />
+                                    square
+                                    x-data="{ copied: false }"
+                                    x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $password->website }}'); setTimeout(() => copied = false, 2000)"
+                                    x-bind:data-copyable-copied="copied"
+                                >
+                                    <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
+                                    <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                </flux:button>
                             </div>
                         </div>
                     </div>

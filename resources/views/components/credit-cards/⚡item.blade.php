@@ -202,12 +202,15 @@ new class extends Component
                             </div>
                             <flux:button
                                 variant="subtle"
-                                icon="clipboard-document"
-                                icon:variant="micro"
                                 inset="right"
                                 square
-                                x-on:click="navigator.clipboard?.writeText('{{ preg_replace('/\s+/', '', $creditCard->card_number) }}')"
-                            />
+                                x-data="{ copied: false }"
+                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ preg_replace('/\s+/', '', $creditCard->card_number) }}'); setTimeout(() => copied = false, 2000)"
+                                x-bind:data-copyable-copied="copied"
+                            >
+                                <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
+                                <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                            </flux:button>
                         </div>
                     </div>
                     <div class="pb-3">
@@ -218,12 +221,15 @@ new class extends Component
                             </div>
                             <flux:button
                                 variant="subtle"
-                                icon="clipboard-document"
-                                icon:variant="micro"
                                 inset="right"
                                 square
-                                x-on:click="navigator.clipboard?.writeText('{{ $creditCard->name_on_card }}')"
-                            />
+                                x-data="{ copied: false }"
+                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $creditCard->name_on_card }}'); setTimeout(() => copied = false, 2000)"
+                                x-bind:data-copyable-copied="copied"
+                            >
+                                <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
+                                <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                            </flux:button>
                         </div>
                     </div>
                     <div class="pb-3">
@@ -234,12 +240,15 @@ new class extends Component
                             </div>
                             <flux:button
                                 variant="subtle"
-                                icon="clipboard-document"
-                                icon:variant="micro"
                                 inset="right"
                                 square
-                                x-on:click="navigator.clipboard?.writeText('{{ sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)) }}')"
-                            />
+                                x-data="{ copied: false }"
+                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)) }}'); setTimeout(() => copied = false, 2000)"
+                                x-bind:data-copyable-copied="copied"
+                            >
+                                <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
+                                <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                            </flux:button>
                         </div>
                     </div>
                     <div class="pb-3">
@@ -258,12 +267,15 @@ new class extends Component
                                 />
                                 <flux:button
                                     variant="subtle"
-                                    icon="clipboard-document"
-                                    icon:variant="micro"
-                                    square
                                     inset="right"
-                                    x-on:click="navigator.clipboard?.writeText('{{ $creditCard->cvv }}')"
-                                />
+                                    square
+                                    x-data="{ copied: false }"
+                                    x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $creditCard->cvv }}'); setTimeout(() => copied = false, 2000)"
+                                    x-bind:data-copyable-copied="copied"
+                                >
+                                    <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
+                                    <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                </flux:button>
                             </div>
                         </div>
                     </div>
