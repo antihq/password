@@ -60,6 +60,7 @@ new #[Title('Credit Cards')] class extends Component
         $this->authorize('create', CreditCard::class);
 
         $this->validate([
+            'name' => ['required', 'string', 'max:255'],
             'name_on_card' => ['required', 'string', 'max:255'],
             'card_number' => [
                 'required',
@@ -68,7 +69,6 @@ new #[Title('Credit Cards')] class extends Component
             ],
             'expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
             'cvv' => ['required', 'string', 'max:4'],
-            'name' => ['required', 'string', 'max:255'],
             'notes' => ['nullable', 'string'],
         ]);
 
@@ -169,9 +169,9 @@ new #[Title('Credit Cards')] class extends Component
                     <flux:text>Store a new credit card securely.</flux:text>
                 </div>
 
-                <flux:input wire:model="name" label="Name" type="text" placeholder="e.g., Personal Visa" />
+                <flux:input wire:model="name" label="Name" type="text" placeholder="e.g., Personal Visa" required autofocus />
 
-                <flux:autocomplete wire:model="name_on_card" label="Name on card" required autofocus>
+                <flux:autocomplete wire:model="name_on_card" label="Name on card" required>
                     @foreach ($this->existingCardholderNames as $existingName)
                         <flux:autocomplete.item>
                             {{ $existingName }}
