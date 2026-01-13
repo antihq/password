@@ -9,36 +9,35 @@ class CreditCardFactory extends Factory
 {
     public function definition(): array
     {
-        $cardTypes = [
-            'visa' => '4242424242424242',
-            'mastercard' => '5555555555554444',
-            'amex' => '378282246310005',
-            'visa2' => '4012888888881881',
-            'mastercard2' => '5105105105105100',
-        ];
+        $amexCardNumber = '378282246310005';
 
-        $cardNumber = fake()->randomElement($cardTypes);
-        $expiryMonth = fake()->numberBetween(1, 12);
-        $expiryYear = fake()->numberBetween((int) date('Y'), (int) date('Y') + 5);
+        $cardNumber = fake()->randomElement([
+            '4242424242424242',
+            '5555555555554444',
+            $amexCardNumber,
+            '4012888888881881',
+            '5105105105105100',
+        ]);
 
-        $isAmex = $cardNumber === '378282246310005';
-        $cvv = $isAmex ? str_pad(fake()->numberBetween(1000, 9999), 4, '0') : str_pad(fake()->numberBetween(100, 999), 3, '0');
+        $isAmex = $cardNumber === $amexCardNumber;
 
-        $names = [
-            'Personal Visa',
-            'Business Mastercard',
-            'Travel Card',
-            'Online Shopping',
-            'Emergency Card',
-        ];
+        $cvv = $isAmex
+            ? (string) fake()->numberBetween(1000, 9999)
+            : (string) fake()->numberBetween(100, 999);
 
         return [
             'name_on_card' => fake()->name(),
             'card_number' => $cardNumber,
-            'expiry_month' => $expiryMonth,
-            'expiry_year' => $expiryYear,
+            'expiry_month' => fake()->numberBetween(1, 12),
+            'expiry_year' => fake()->numberBetween((int) date('Y'), (int) date('Y') + 5),
             'cvv' => $cvv,
-            'name' => fake()->randomElement($names),
+            'name' => fake()->randomElement([
+                'Personal Visa',
+                'Business Mastercard',
+                'Travel Card',
+                'Online Shopping',
+                'Emergency Card',
+            ]),
             'notes' => fake()->randomElement([
                 fake()->sentence(),
                 fake()->paragraph(),

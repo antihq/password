@@ -84,7 +84,7 @@ new #[Title('Credit Cards')] class extends Component
         $this->modal('create-credit-card')->close();
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
         $creditCard = $this->team->creditCards()->findOrFail($id);
 

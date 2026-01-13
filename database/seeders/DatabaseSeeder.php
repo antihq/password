@@ -91,20 +91,20 @@ class DatabaseSeeder extends Seeder
 
     private function seedCreditCards(): void
     {
-        $personalTeams = $this->users->pluck('ownedTeams')->flatten();
+        $personalTeams = $this->users->pluck('ownedTeams')
+            ->flatten()
+            ->where('personal_team', true);
 
         foreach ($personalTeams as $team) {
-            if (! $team->personal_team) {
-                continue;
-            }
-
-            $count = fake()->numberBetween(3, 5);
-            CreditCard::factory()->count($count)->create(['team_id' => $team->id]);
+            CreditCard::factory()
+                ->count(fake()->numberBetween(3, 5))
+                ->create(['team_id' => $team->id]);
         }
 
         foreach ($this->sharedTeams as $team) {
-            $count = fake()->numberBetween(5, 8);
-            CreditCard::factory()->count($count)->create(['team_id' => $team->id]);
+            CreditCard::factory()
+                ->count(fake()->numberBetween(5, 8))
+                ->create(['team_id' => $team->id]);
         }
     }
 }
