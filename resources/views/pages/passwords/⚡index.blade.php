@@ -87,6 +87,8 @@ new #[Title('Passwords')] class extends Component
             'notes' => $this->pull('notes'),
         ]);
 
+        $this->generatePassword();
+
         $this->modal('create-password')->close();
     }
 

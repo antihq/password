@@ -40,7 +40,7 @@ it('can create a password', function () {
         ->call('create')
         ->assertSet('name', '')
         ->assertSet('username', '')
-        ->assertSet('password', '');
+        ->assertSet('password', fn ($p) => ! empty($p));
 
     $this->assertDatabaseHas('passwords', [
         'name' => 'Netflix',
@@ -88,7 +88,7 @@ it('can create a password with auto-generated password', function () {
         ->call('create')
         ->assertSet('name', '')
         ->assertSet('username', '')
-        ->assertSet('password', '');
+        ->assertSet('password', fn ($p) => ! empty($p));
 
     $this->assertDatabaseHas('passwords', [
         'name' => 'GitHub',
