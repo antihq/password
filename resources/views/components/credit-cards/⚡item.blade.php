@@ -304,7 +304,7 @@ new class extends Component
                     <flux:text>Update your credit card details below.</flux:text>
                 </div>
 
-                <flux:autocomplete wire:model="name_on_card" label="Name on card" required>
+                <flux:autocomplete wire:model="name_on_card" label="Name on card" :value="$creditCard->name_on_card" required>
                     @foreach ($this->existingCardholderNames as $existingName)
                         <flux:autocomplete.item>
                             {{ $existingName }}

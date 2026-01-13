@@ -269,7 +269,7 @@ new class extends Component
 
                 <flux:input wire:model="name" label="Name" type="text" required />
 
-                <flux:autocomplete wire:model="username" label="Username" required>
+                <flux:autocomplete wire:model="username" label="Username" :value="$password->username" required>
                     @foreach ($this->existingUsernames as $existingUsername)
                         <flux:autocomplete.item>
                             {{ $existingUsername }}
