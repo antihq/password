@@ -4,11 +4,11 @@ use App\Models\CreditCard;
 use App\Models\Team;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Js;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-new class extends Component
-{
+new class extends Component {
     public CreditCard $creditCard;
 
     public string $name_on_card = '';
@@ -32,14 +32,18 @@ new class extends Component
 
     public function toggleViewCvv(): void
     {
-        $this->viewCvv = !$this->viewCvv;
+        $this->viewCvv = ! $this->viewCvv;
     }
 
     private function resetFormFields(): void
     {
         $this->name_on_card = $this->creditCard->name_on_card;
         $this->card_number = $this->creditCard->card_number;
-        $this->expiry = sprintf('%02d/%02d', $this->creditCard->expiry_month, substr($this->creditCard->expiry_year, -2));
+        $this->expiry = sprintf(
+            '%02d/%02d',
+            $this->creditCard->expiry_month,
+            substr($this->creditCard->expiry_year, -2),
+        );
         $this->cvv = $this->creditCard->cvv;
         $this->name = $this->creditCard->name;
         $this->notes = $this->creditCard->notes ?? '';
@@ -88,11 +92,7 @@ new class extends Component
 
         $this->validate([
             'name_on_card' => ['required', 'string', 'max:255'],
-            'card_number' => [
-                'required',
-                'string',
-                'regex:/^(\d{4}\s?){3}\d{4}$|^\d{4}\s?\d{6}\s?\d{5}$|^\d{15,16}$/',
-            ],
+            'card_number' => ['required', 'string', 'regex:/^(\d{4}\s?){3}\d{4}$|^\d{4}\s?\d{6}\s?\d{5}$|^\d{15,16}$/'],
             'expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
             'cvv' => ['required', 'string', 'max:4'],
             'name' => ['required', 'string', 'max:255'],
@@ -147,9 +147,9 @@ new class extends Component
                         {{ $creditCard->name }}
                     </flux:modal.trigger>
                 </flux:heading>
-                 <flux:text size="sm">
+                <flux:text size="sm">
                     {{ $creditCard->name_on_card }}
-                 </flux:text>
+                </flux:text>
             </div>
         </div>
         <div class="flex shrink-0 items-center gap-x-4">
@@ -193,7 +193,7 @@ new class extends Component
                     </flux:modal.trigger>
                 </div>
 
-                <div class="divide-y divide-zinc-950/5 dark:divide-white/5 space-y-3">
+                <div class="space-y-3 divide-y divide-zinc-950/5 dark:divide-white/5">
                     <div class="pb-3">
                         <div class="flex items-end justify-between gap-2">
                             <div class="space-y-1">
@@ -205,11 +205,18 @@ new class extends Component
                                 inset="right"
                                 square
                                 x-data="{ copied: false }"
-                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ preg_replace('/\s+/', '', $creditCard->card_number) }}'); setTimeout(() => copied = false, 2000)"
+                                data-copy-value="{{ Js::from(preg_replace('/\s+/', '', $creditCard->card_number)) }}"
+                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue); setTimeout(() => (copied = false), 2000)"
                                 x-bind:data-copyable-copied="copied"
                             >
-                                <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
-                                <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                <flux:icon.clipboard-document-check
+                                    variant="micro"
+                                    class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block"
+                                />
+                                <flux:icon.clipboard-document
+                                    variant="micro"
+                                    class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden"
+                                />
                             </flux:button>
                         </div>
                     </div>
@@ -224,11 +231,18 @@ new class extends Component
                                 inset="right"
                                 square
                                 x-data="{ copied: false }"
-                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $creditCard->name_on_card }}'); setTimeout(() => copied = false, 2000)"
+                                data-copy-value="{{ Js::from($creditCard->name_on_card) }}"
+                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue); setTimeout(() => (copied = false), 2000)"
                                 x-bind:data-copyable-copied="copied"
                             >
-                                <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
-                                <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                <flux:icon.clipboard-document-check
+                                    variant="micro"
+                                    class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block"
+                                />
+                                <flux:icon.clipboard-document
+                                    variant="micro"
+                                    class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden"
+                                />
                             </flux:button>
                         </div>
                     </div>
@@ -236,18 +250,27 @@ new class extends Component
                         <div class="flex items-end justify-between gap-2">
                             <div class="space-y-1">
                                 <flux:text>Expiry</flux:text>
-                                <flux:text variant="strong">{{ sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)) }}</flux:text>
+                                <flux:text variant="strong">
+                                    {{ sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)) }}
+                                </flux:text>
                             </div>
                             <flux:button
                                 variant="subtle"
                                 inset="right"
                                 square
                                 x-data="{ copied: false }"
-                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)) }}'); setTimeout(() => copied = false, 2000)"
+                                data-copy-value="{{ Js::from(sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2))) }}"
+                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue); setTimeout(() => (copied = false), 2000)"
                                 x-bind:data-copyable-copied="copied"
                             >
-                                <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
-                                <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                <flux:icon.clipboard-document-check
+                                    variant="micro"
+                                    class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block"
+                                />
+                                <flux:icon.clipboard-document
+                                    variant="micro"
+                                    class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden"
+                                />
                             </flux:button>
                         </div>
                     </div>
@@ -270,11 +293,18 @@ new class extends Component
                                     inset="right"
                                     square
                                     x-data="{ copied: false }"
-                                    x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $creditCard->cvv }}'); setTimeout(() => copied = false, 2000)"
+                                    data-copy-value="{{ Js::from($creditCard->cvv) }}"
+                                    x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue); setTimeout(() => (copied = false), 2000)"
                                     x-bind:data-copyable-copied="copied"
                                 >
-                                    <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
-                                    <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                    <flux:icon.clipboard-document-check
+                                        variant="micro"
+                                        class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block"
+                                    />
+                                    <flux:icon.clipboard-document
+                                        variant="micro"
+                                        class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden"
+                                    />
                                 </flux:button>
                             </div>
                         </div>
@@ -295,49 +325,66 @@ new class extends Component
     </flux:modal>
 
     <flux:modal name="edit-credit-card-{{ $creditCard->id }}" class="w-full sm:max-w-lg">
-        <form wire:submit="save" class="space-y-8">
-            <div class="space-y-6">
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <flux:heading size="lg">Edit credit card</flux:heading>
+        @island(lazy: true)
+            <form wire:submit="save" class="space-y-8">
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <flux:heading size="lg">Edit credit card</flux:heading>
+                        </div>
+                        <flux:text>Update your credit card details below.</flux:text>
                     </div>
-                    <flux:text>Update your credit card details below.</flux:text>
+
+                    <flux:autocomplete
+                        wire:model="name_on_card"
+                        label="Name on card"
+                        :value="$creditCard->name_on_card"
+                        required
+                    >
+                        @foreach ($this->existingCardholderNames as $existingName)
+                            <flux:autocomplete.item>
+                                {{ $existingName }}
+                            </flux:autocomplete.item>
+                        @endforeach
+                    </flux:autocomplete>
+
+                    <flux:input
+                        wire:model="card_number"
+                        label="Card number"
+                        type="password"
+                        required
+                        viewable
+                        copyable
+                        mask:dynamic="$input.startsWith('34') || $input.startsWith('37') ? '9999 999999 99999' : '9999 9999 9999 9999'"
+                    />
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <flux:input wire:model="expiry" mask="99/99" label="Expiry" placeholder="MM/YY" required />
+
+                        <flux:input wire:model="cvv" label="CVV" type="password" required viewable />
+                    </div>
+
+                    <flux:input wire:model="name" label="Name" type="text" placeholder="e.g., Personal Visa" required />
+
+                    <flux:editor
+                        wire:model="notes"
+                        label="Notes"
+                        label:sr-only
+                        placeholder="Notes"
+                        class="**:data-[slot=content]:min-h-[100px]!"
+                    />
                 </div>
 
-                <flux:autocomplete wire:model="name_on_card" label="Name on card" :value="$creditCard->name_on_card" required>
-                    @foreach ($this->existingCardholderNames as $existingName)
-                        <flux:autocomplete.item>
-                            {{ $existingName }}
-                        </flux:autocomplete.item>
-                    @endforeach
-                </flux:autocomplete>
-
-                <flux:input wire:model="card_number" label="Card number" type="password" required viewable copyable mask:dynamic="$input.startsWith('34') || $input.startsWith('37') ? '9999 999999 99999' : '9999 9999 9999 9999'" />
-
-                <div class="grid gap-4 sm:grid-cols-2">
-                    <flux:input wire:model="expiry" mask="99/99" label="Expiry" placeholder="MM/YY" required />
-
-                    <flux:input wire:model="cvv" label="CVV" type="password" required viewable />
+                <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
+                    <flux:modal.close>
+                        <flux:button wire:click="cancelEdit" variant="ghost" class="w-full sm:w-auto">
+                            Cancel
+                        </flux:button>
+                    </flux:modal.close>
+                    <flux:button type="submit" variant="primary">Save</flux:button>
                 </div>
-
-                <flux:input wire:model="name" label="Name" type="text" placeholder="e.g., Personal Visa" required />
-
-                <flux:editor
-                    wire:model="notes"
-                    label="Notes"
-                    label:sr-only
-                    placeholder="Notes"
-                    class="**:data-[slot=content]:min-h-[100px]!"
-                />
-            </div>
-
-            <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
-                <flux:modal.close>
-                    <flux:button wire:click="cancelEdit" variant="ghost" class="w-full sm:w-auto">Cancel</flux:button>
-                </flux:modal.close>
-                <flux:button type="submit" variant="primary">Save</flux:button>
-            </div>
-        </form>
+            </form>
+        @endisland
     </flux:modal>
 
     <flux:modal name="delete-credit-card-{{ $creditCard->id }}" class="w-full max-w-xs sm:max-w-md">
@@ -345,8 +392,7 @@ new class extends Component
             <div>
                 <flux:heading>Are you sure you want to delete this credit card?</flux:heading>
                 <flux:text class="mt-2">
-                    This will permanently delete credit card "{{ $creditCard->name }}". This action
-                    cannot be reversed.
+                    This will permanently delete credit card "{{ $creditCard->name }}". This action cannot be reversed.
                 </flux:text>
             </div>
             <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">

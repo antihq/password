@@ -4,11 +4,11 @@ use App\Models\Password;
 use App\Models\Team;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Js;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-new class extends Component
-{
+new class extends Component {
     public Password $password;
 
     public string $name = '';
@@ -30,7 +30,7 @@ new class extends Component
 
     public function toggleViewPassword(): void
     {
-        $this->viewPassword = !$this->viewPassword;
+        $this->viewPassword = ! $this->viewPassword;
     }
 
     private function resetFormFields(): void
@@ -67,7 +67,7 @@ new class extends Component
     public function generateNewPassword(): void
     {
         $lowercase = 'abcdefghijklmnopqrstuvwxyz';
-        $alphanumeric = $lowercase.'0123456789';
+        $alphanumeric = $lowercase . '0123456789';
 
         $part1 = substr(str_shuffle(str_repeat($lowercase, 3)), 0, 6);
         $part2 = substr(str_shuffle(str_repeat($alphanumeric, 3)), 0, 6);
@@ -174,7 +174,7 @@ new class extends Component
                     </flux:modal.trigger>
                 </div>
 
-                <div class="divide-y divide-zinc-950/5 dark:divide-white/5 space-y-3">
+                <div class="space-y-3 divide-y divide-zinc-950/5 dark:divide-white/5">
                     <div class="pb-3">
                         <div class="flex items-end justify-between gap-2">
                             <div class="space-y-1">
@@ -186,11 +186,22 @@ new class extends Component
                                 inset="right"
                                 square
                                 x-data="{ copied: false }"
-                                x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $password->username }}'); setTimeout(() => copied = false, 2000)"
+                                data-copy-value="{{ Js::from($password->username) }}"
+                                x-on:click="
+                                    copied = ! copied
+                                    navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue)
+                                    setTimeout(() => (copied = false), 2000)
+                                "
                                 x-bind:data-copyable-copied="copied"
                             >
-                                <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
-                                <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                <flux:icon.clipboard-document-check
+                                    variant="micro"
+                                    class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block"
+                                />
+                                <flux:icon.clipboard-document
+                                    variant="micro"
+                                    class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden"
+                                />
                             </flux:button>
                         </div>
                     </div>
@@ -198,7 +209,9 @@ new class extends Component
                         <div class="flex items-end justify-between gap-2">
                             <div class="space-y-1">
                                 <flux:text>Password</flux:text>
-                                <flux:text variant="strong">{{ $viewPassword ? $password->password : '••••••••••••' }}</flux:text>
+                                <flux:text variant="strong">
+                                    {{ $viewPassword ? $password->password : '••••••••••••' }}
+                                </flux:text>
                             </div>
                             <div class="flex gap-0.5">
                                 <flux:button
@@ -213,11 +226,22 @@ new class extends Component
                                     inset="right"
                                     square
                                     x-data="{ copied: false }"
-                                    x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $password->password }}'); setTimeout(() => copied = false, 2000)"
+                                    data-copy-value="{{ Js::from($password->password) }}"
+                                    x-on:click="
+                                        copied = ! copied
+                                        navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue)
+                                        setTimeout(() => (copied = false), 2000)
+                                    "
                                     x-bind:data-copyable-copied="copied"
                                 >
-                                    <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
-                                    <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                    <flux:icon.clipboard-document-check
+                                        variant="micro"
+                                        class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block"
+                                    />
+                                    <flux:icon.clipboard-document
+                                        variant="micro"
+                                        class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden"
+                                    />
                                 </flux:button>
                             </div>
                         </div>
@@ -226,7 +250,9 @@ new class extends Component
                         <div class="flex items-end justify-between gap-2">
                             <div class="space-y-1">
                                 <flux:text>Website</flux:text>
-                                <flux:text variant="strong"><flux:link :href="$password->website">{{ $password->website_hostname }}</flux:link></flux:text>
+                                <flux:text variant="strong">
+                                    <flux:link :href="$password->website">{{ $password->website_hostname }}</flux:link>
+                                </flux:text>
                             </div>
                             <div class="flex gap-0.5">
                                 <flux:button
@@ -234,11 +260,22 @@ new class extends Component
                                     inset="right"
                                     square
                                     x-data="{ copied: false }"
-                                    x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText('{{ $password->website }}'); setTimeout(() => copied = false, 2000)"
+                                    data-copy-value="{{ Js::from($password->website) }}"
+                                    x-on:click="
+                                        copied = ! copied
+                                        navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue)
+                                        setTimeout(() => (copied = false), 2000)
+                                    "
                                     x-bind:data-copyable-copied="copied"
                                 >
-                                    <flux:icon.clipboard-document-check variant="micro" class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block" />
-                                    <flux:icon.clipboard-document variant="micro" class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden" />
+                                    <flux:icon.clipboard-document-check
+                                        variant="micro"
+                                        class="hidden size-5 sm:size-4 [[data-copyable-copied]>&]:block"
+                                    />
+                                    <flux:icon.clipboard-document
+                                        variant="micro"
+                                        class="block size-5 sm:size-4 [[data-copyable-copied]>&]:hidden"
+                                    />
                                 </flux:button>
                             </div>
                         </div>
@@ -258,49 +295,61 @@ new class extends Component
         </div>
     </flux:modal>
     <flux:modal name="edit-password-{{ $password->id }}" class="w-full sm:max-w-lg">
-        <form wire:submit="save" class="space-y-8">
-            <div class="space-y-6">
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <flux:heading size="lg">Edit password</flux:heading>
+        @island(lazy: true)
+            <form wire:submit="save" class="space-y-8">
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <flux:heading size="lg">Edit password</flux:heading>
+                        </div>
+                        <flux:text>Update your password details below.</flux:text>
                     </div>
-                    <flux:text>Update your password details below.</flux:text>
+
+                    <flux:input wire:model="name" label="Name" type="text" required />
+
+                    <flux:autocomplete wire:model="username" label="Username" :value="$password->username" required>
+                        @foreach ($this->existingUsernames as $existingUsername)
+                            <flux:autocomplete.item>
+                                {{ $existingUsername }}
+                            </flux:autocomplete.item>
+                        @endforeach
+                    </flux:autocomplete>
+
+                    <flux:input wire:model="newPassword" label="Password" type="password" required viewable copyable>
+                        <x-slot name="iconTrailing">
+                            <flux:button
+                                size="sm"
+                                variant="subtle"
+                                icon="sparkles"
+                                icon:variant="micro"
+                                class="-mr-1"
+                                square
+                                wire:click="generateNewPassword"
+                            />
+                        </x-slot>
+                    </flux:input>
+
+                    <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
+
+                    <flux:editor
+                        wire:model="notes"
+                        label="Notes"
+                        label:sr-only
+                        placeholder="Notes"
+                        class="**:data-[slot=content]:min-h-[100px]!"
+                    />
                 </div>
 
-                <flux:input wire:model="name" label="Name" type="text" required />
-
-                <flux:autocomplete wire:model="username" label="Username" :value="$password->username" required>
-                    @foreach ($this->existingUsernames as $existingUsername)
-                        <flux:autocomplete.item>
-                            {{ $existingUsername }}
-                        </flux:autocomplete.item>
-                    @endforeach
-                </flux:autocomplete>
-
-                <flux:input wire:model="newPassword" label="Password" type="password" required viewable copyable>
-                    <x-slot name="iconTrailing">
-                        <flux:button size="sm" variant="subtle" icon="sparkles" icon:variant="micro" class="-mr-1" square wire:click="generateNewPassword" />
-                    </x-slot>
-                </flux:input>
-
-                <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
-
-                <flux:editor
-                    wire:model="notes"
-                    label="Notes"
-                    label:sr-only
-                    placeholder="Notes"
-                    class="**:data-[slot=content]:min-h-[100px]!"
-                />
-            </div>
-
-            <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
-                <flux:modal.close>
-                    <flux:button wire:click="cancelEdit" variant="ghost" class="w-full sm:w-auto">Cancel</flux:button>
-                </flux:modal.close>
-                <flux:button type="submit" variant="primary">Save</flux:button>
-            </div>
-        </form>
+                <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
+                    <flux:modal.close>
+                        <flux:button wire:click="cancelEdit" variant="ghost" class="w-full sm:w-auto">
+                            Cancel
+                        </flux:button>
+                    </flux:modal.close>
+                    <flux:button type="submit" variant="primary">Save</flux:button>
+                </div>
+            </form>
+        @endisland
     </flux:modal>
     <flux:modal name="delete-password-{{ $password->id }}" class="w-full max-w-xs sm:max-w-md">
         <div class="space-y-6 sm:space-y-4">
