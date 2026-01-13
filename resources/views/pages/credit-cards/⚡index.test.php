@@ -36,13 +36,13 @@ it('can create a credit card', function () {
         ->test('pages::credit-cards.index')
         ->set('name_on_card', 'John Doe')
         ->set('card_number', '4242424242424242')
-        ->set('expiry_month', 12)
-        ->set('expiry_year', 2027)
+        ->set('expiry', '12/27')
         ->set('cvv', '123')
         ->set('name', 'Personal Visa')
         ->call('create')
         ->assertSet('name_on_card', '')
         ->assertSet('card_number', '')
+        ->assertSet('expiry', '')
         ->assertSet('name', '');
 
     $this->assertDatabaseHas('credit_cards', [
@@ -58,11 +58,10 @@ it('validates required fields when creating credit card', function () {
         ->test('pages::credit-cards.index')
         ->set('name_on_card', '')
         ->set('card_number', '')
-        ->set('expiry_month', '')
-        ->set('expiry_year', '')
+        ->set('expiry', '')
         ->set('cvv', '')
         ->call('create')
-        ->assertHasErrors(['name_on_card', 'card_number', 'expiry_month', 'expiry_year', 'cvv']);
+        ->assertHasErrors(['name_on_card', 'card_number', 'expiry', 'cvv']);
 });
 
 it('validates expiry month is between 1 and 12', function () {
@@ -70,23 +69,24 @@ it('validates expiry month is between 1 and 12', function () {
         ->test('pages::credit-cards.index')
         ->set('name_on_card', 'John Doe')
         ->set('card_number', '4242424242424242')
-        ->set('expiry_month', 13)
-        ->set('expiry_year', 2027)
+        ->set('expiry', '13/27')
         ->set('cvv', '123')
         ->call('create')
-        ->assertHasErrors(['expiry_month']);
+        ->assertHasErrors(['expiry']);
 });
 
 it('validates expiry year is not in the past', function () {
+    $pastYear = substr((string) (date('Y') - 1), -2);
+
     Livewire::actingAs($this->user)
         ->test('pages::credit-cards.index')
+        ->set('name', 'Personal Visa')
         ->set('name_on_card', 'John Doe')
         ->set('card_number', '4242424242424242')
-        ->set('expiry_month', 12)
-        ->set('expiry_year', (int) date('Y') - 1)
+        ->set('expiry', '12/'.$pastYear)
         ->set('cvv', '123')
         ->call('create')
-        ->assertHasErrors(['expiry_year']);
+        ->assertHasErrors(['expiry']);
 });
 
 it('validates cvv max length', function () {
@@ -94,8 +94,7 @@ it('validates cvv max length', function () {
         ->test('pages::credit-cards.index')
         ->set('name_on_card', 'John Doe')
         ->set('card_number', '4242424242424242')
-        ->set('expiry_month', 12)
-        ->set('expiry_year', 2027)
+        ->set('expiry', '12/27')
         ->set('cvv', '12345')
         ->call('create')
         ->assertHasErrors(['cvv']);
@@ -106,8 +105,7 @@ it('can create a credit card with name and notes', function () {
         ->test('pages::credit-cards.index')
         ->set('name_on_card', 'Jane Smith')
         ->set('card_number', '5555555555554444')
-        ->set('expiry_month', 6)
-        ->set('expiry_year', 2028)
+        ->set('expiry', '06/28')
         ->set('cvv', '456')
         ->set('name', 'Personal Visa')
         ->set('notes', 'My personal credit card')

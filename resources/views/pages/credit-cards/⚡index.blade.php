@@ -15,9 +15,7 @@ new #[Title('Credit Cards')] class extends Component
 
     public $card_number = '';
 
-    public $expiry_month = '';
-
-    public $expiry_year = '';
+    public $expiry = '';
 
     public $cvv = '';
 
@@ -64,18 +62,27 @@ new #[Title('Credit Cards')] class extends Component
         $this->validate([
             'name_on_card' => ['required', 'string', 'max:255'],
             'card_number' => ['required', 'string'],
-            'expiry_month' => ['required', 'integer', 'between:1,12'],
-            'expiry_year' => ['required', 'integer', 'min:'.date('Y')],
+            'expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
             'cvv' => ['required', 'string', 'max:4'],
             'name' => ['required', 'string', 'max:255'],
             'notes' => ['nullable', 'string'],
         ]);
 
+        [$month, $shortYear] = explode('/', $this->pull('expiry'));
+        $year = 2000 + (int) $shortYear;
+        $month = (int) $month;
+
+        if ($year < (int) date('Y') || ($year === (int) date('Y') && $month < (int) date('m'))) {
+            $this->addError('expiry', 'The expiry date must be in the future.');
+
+            return;
+        }
+
         $this->team->creditCards()->create([
             'name_on_card' => $this->pull('name_on_card'),
             'card_number' => $this->pull('card_number'),
-            'expiry_month' => $this->pull('expiry_month'),
-            'expiry_year' => $this->pull('expiry_year'),
+            'expiry_month' => $month,
+            'expiry_year' => $year,
             'cvv' => $this->pull('cvv'),
             'name' => $this->pull('name'),
             'notes' => $this->pull('notes'),
@@ -158,6 +165,8 @@ new #[Title('Credit Cards')] class extends Component
                     <flux:text>Store a new credit card securely.</flux:text>
                 </div>
 
+                <flux:input wire:model="name" label="Name" type="text" placeholder="e.g., Personal Visa" />
+
                 <flux:autocomplete wire:model="name_on_card" label="Name on card" required autofocus>
                     @foreach ($this->existingCardholderNames as $existingName)
                         <flux:autocomplete.item>
@@ -166,25 +175,13 @@ new #[Title('Credit Cards')] class extends Component
                     @endforeach
                 </flux:autocomplete>
 
-                <flux:input wire:model="card_number" label="Card number" type="password" required viewable copyable />
+                <flux:input wire:model="card_number" label="Card number" type="password" required />
 
-                <div class="grid gap-4 sm:grid-cols-3">
-                    <flux:select wire:model="expiry_month" label="Month" required>
-                        @for($i = 1; $i <= 12; $i++)
-                            <flux:select.option value="{{ $i }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</flux:select.option>
-                        @endfor
-                    </flux:select>
-
-                    <flux:select wire:model="expiry_year" label="Year" required>
-                        @for($i = date('Y'); $i <= date('Y') + 10; $i++)
-                            <flux:select.option value="{{ $i }}">{{ $i }}</flux:select.option>
-                        @endfor
-                    </flux:select>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <flux:input wire:model="expiry" mask="99/99" label="Expiry" placeholder="MM/YY" required />
 
                     <flux:input wire:model="cvv" label="CVV" type="password" required viewable />
                 </div>
-
-                <flux:input wire:model="name" label="Name" type="text" placeholder="e.g., Personal Visa" />
 
                 <flux:editor wire:model="notes" label="Notes" label:sr-only placeholder="Notes" class="**:data-[slot=content]:min-h-[100px]!" />
             </div>
