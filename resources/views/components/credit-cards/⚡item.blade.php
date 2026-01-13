@@ -23,9 +23,16 @@ new class extends Component
 
     public string $notes = '';
 
+    public bool $viewCvv = false;
+
     public function mount(): void
     {
         $this->resetFormFields();
+    }
+
+    public function toggleViewCvv(): void
+    {
+        $this->viewCvv = !$this->viewCvv;
     }
 
     private function resetFormFields(): void
@@ -186,44 +193,80 @@ new class extends Component
                     </flux:modal.trigger>
                 </div>
 
-                 <flux:input
-                    wire:key="view-card-number"
-                    :value="$this->formattedCardNumber"
-                    label="Card number"
-                    readonly
-                    variant="filled"
-                    copyable
-                 />
-
-                <flux:input
-                    wire:key="view-name-on-card"
-                    :value="$creditCard->name_on_card"
-                    label="Name on card"
-                    readonly
-                    variant="filled"
-                    copyable
-                />
-
-                <div class="grid gap-4 sm:grid-cols-2">
-                    <flux:input
-                        wire:key="view-expiry"
-                        :value="sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2))"
-                        label="Expiry"
-                        readonly
-                        variant="filled"
-                        copyable
-                    />
-
-                    <flux:input
-                        wire:key="view-cvv"
-                        :value="$creditCard->cvv"
-                        label="CVV"
-                        type="password"
-                        readonly
-                        variant="filled"
-                        copyable
-                        viewable
-                    />
+                <div class="divide-y divide-zinc-950/5 dark:divide-white/5 space-y-3">
+                    <div class="pb-3">
+                        <div class="flex items-end justify-between gap-2">
+                            <div class="space-y-1">
+                                <flux:text>Card number</flux:text>
+                                <flux:text variant="strong">{{ $this->formattedCardNumber }}</flux:text>
+                            </div>
+                            <flux:button
+                                variant="subtle"
+                                icon="clipboard-document"
+                                icon:variant="micro"
+                                inset="right"
+                                square
+                                x-on:click="navigator.clipboard?.writeText('{{ preg_replace('/\s+/', '', $creditCard->card_number) }}')"
+                            />
+                        </div>
+                    </div>
+                    <div class="pb-3">
+                        <div class="flex items-end justify-between gap-2">
+                            <div class="space-y-1">
+                                <flux:text>Name on card</flux:text>
+                                <flux:text variant="strong">{{ $creditCard->name_on_card }}</flux:text>
+                            </div>
+                            <flux:button
+                                variant="subtle"
+                                icon="clipboard-document"
+                                icon:variant="micro"
+                                inset="right"
+                                square
+                                x-on:click="navigator.clipboard?.writeText('{{ $creditCard->name_on_card }}')"
+                            />
+                        </div>
+                    </div>
+                    <div class="pb-3">
+                        <div class="flex items-end justify-between gap-2">
+                            <div class="space-y-1">
+                                <flux:text>Expiry</flux:text>
+                                <flux:text variant="strong">{{ sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)) }}</flux:text>
+                            </div>
+                            <flux:button
+                                variant="subtle"
+                                icon="clipboard-document"
+                                icon:variant="micro"
+                                inset="right"
+                                square
+                                x-on:click="navigator.clipboard?.writeText('{{ sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)) }}')"
+                            />
+                        </div>
+                    </div>
+                    <div class="pb-3">
+                        <div class="flex items-end justify-between gap-2">
+                            <div class="space-y-1">
+                                <flux:text>CVV</flux:text>
+                                <flux:text variant="strong">{{ $viewCvv ? $creditCard->cvv : '••••' }}</flux:text>
+                            </div>
+                            <div class="flex gap-0.5">
+                                <flux:button
+                                    variant="subtle"
+                                    :icon="$viewCvv ? 'eye-slash' : 'eye'"
+                                    icon:variant="micro"
+                                    square
+                                    wire:click="toggleViewCvv"
+                                />
+                                <flux:button
+                                    variant="subtle"
+                                    icon="clipboard-document"
+                                    icon:variant="micro"
+                                    square
+                                    inset="right"
+                                    x-on:click="navigator.clipboard?.writeText('{{ $creditCard->cvv }}')"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 @if ($creditCard->notes)
