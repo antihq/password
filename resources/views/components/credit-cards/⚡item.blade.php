@@ -65,15 +65,14 @@ new class extends Component
     {
         $number = preg_replace('/\s+/', '', $this->creditCard->card_number);
 
-        if (str_starts_with($number, '34') || str_starts_with($number, '37')) {
-            return implode(' ', [
+        return match (true) {
+            str_starts_with($number, '34'), str_starts_with($number, '37') => implode(' ', [
                 substr($number, 0, 4),
                 substr($number, 4, 6),
                 substr($number, 10, 5),
-            ]);
-        }
-
-        return implode(' ', str_split($number, 4));
+            ]),
+            default => implode(' ', str_split($number, 4)),
+        };
     }
 
     public function save(): void
@@ -82,7 +81,11 @@ new class extends Component
 
         $this->validate([
             'name_on_card' => ['required', 'string', 'max:255'],
-            'card_number' => ['required', 'string', 'regex:/^(\d{4}\s?){3}\d{4}$|^(\d{4}\s?\d{6}\s?\d{5})$|^\d{15,16}$/'],
+            'card_number' => [
+                'required',
+                'string',
+                'regex:/^(\d{4}\s?){3}\d{4}$|^\d{4}\s?\d{6}\s?\d{5}$|^\d{15,16}$/',
+            ],
             'expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
             'cvv' => ['required', 'string', 'max:4'],
             'name' => ['required', 'string', 'max:255'],
@@ -122,9 +125,13 @@ new class extends Component
     >
         <div class="flex min-w-0 gap-x-4">
             <div class="shrink-0 max-sm:-mt-0.5">
-                <flux:avatar size="xs" class="bg-transparent">
-                    <flux:icon.credit-card variant="outline" class="text-zinc-500 dark:text-zinc-400" />
-                </flux:avatar>
+                @if ($creditCard->avatar_url)
+                    <flux:avatar :src="$creditCard->avatar_url" size="xs" class="bg-transparent" />
+                @else
+                    <flux:avatar size="xs" class="bg-transparent">
+                        <flux:icon.credit-card variant="outline" class="text-zinc-500 dark:text-zinc-400" />
+                    </flux:avatar>
+                @endif
             </div>
             <div class="min-w-0 flex-auto">
                 <flux:heading class="truncate">
@@ -162,9 +169,13 @@ new class extends Component
             <div class="space-y-6">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-4">
-                        <flux:avatar size="md">
-                            <flux:icon.credit-card variant="outline" class="text-zinc-500 dark:text-zinc-400" />
-                        </flux:avatar>
+                        @if ($creditCard->avatar_url)
+                            <flux:avatar :src="$creditCard->avatar_url" size="md" />
+                        @else
+                            <flux:avatar size="md">
+                                <flux:icon.credit-card variant="outline" class="text-zinc-500 dark:text-zinc-400" />
+                            </flux:avatar>
+                        @endif
                         <div>
                             <flux:heading size="lg">{{ $creditCard->name }}</flux:heading>
                             <flux:text size="sm">{{ $creditCard->name_on_card }}</flux:text>

@@ -61,7 +61,11 @@ new #[Title('Credit Cards')] class extends Component
 
         $this->validate([
             'name_on_card' => ['required', 'string', 'max:255'],
-            'card_number' => ['required', 'string', 'regex:/^(\d{4}\s?){3}\d{4}$|^(\d{4}\s?\d{6}\s?\d{5})$|^\d{15,16}$/'],
+            'card_number' => [
+                'required',
+                'string',
+                'regex:/^(\d{4}\s?){3}\d{4}$|^\d{4}\s?\d{6}\s?\d{5}$|^\d{15,16}$/',
+            ],
             'expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
             'cvv' => ['required', 'string', 'max:4'],
             'name' => ['required', 'string', 'max:255'],

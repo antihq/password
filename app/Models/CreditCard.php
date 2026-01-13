@@ -53,6 +53,41 @@ class CreditCard extends Model
         });
     }
 
+    protected function cardBrand(): Attribute
+    {
+        return Attribute::get(function (): string {
+            $number = $this->card_number;
+
+            return match (true) {
+                str_starts_with($number, '4') => 'visa',
+                str_starts_with($number, '5'),
+                str_starts_with($number, '2') => 'mastercard',
+                str_starts_with($number, '34'),
+                str_starts_with($number, '37') => 'amex',
+                default => 'unknown',
+            };
+        });
+    }
+
+    protected function brandDomain(): Attribute
+    {
+        return Attribute::get(function (): ?string {
+            return match ($this->card_brand) {
+                'visa' => 'visa.com',
+                'mastercard' => 'mastercard.com',
+                'amex' => 'amex.com',
+                default => null,
+            };
+        });
+    }
+
+    protected function avatarUrl(): Attribute
+    {
+        return Attribute::get(function (): ?string {
+            return $this->brand_domain ? "https://unavatar.io/{$this->brand_domain}" : null;
+        });
+    }
+
     public function sanitizedNotes(): ?string
     {
         return $this->notes
