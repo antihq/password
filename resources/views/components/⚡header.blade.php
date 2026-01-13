@@ -32,6 +32,9 @@ new class extends Component {
         <flux:navbar.item :href="route('passwords.index')" :current="request()->routeIs('passwords.index')" wire:navigate>
             Passwords
         </flux:navbar.item>
+        <flux:navbar.item :href="route('credit-cards.index')" :current="request()->routeIs('credit-cards.index')" wire:navigate>
+            Credit Cards
+        </flux:navbar.item>
     </flux:navbar>
 
     <flux:spacer />

@@ -51,4 +51,9 @@ class Team extends JetstreamTeam
     {
         return $this->hasMany(Password::class);
     }
+
+    public function creditCards(): HasMany
+    {
+        return $this->hasMany(CreditCard::class);
+    }
 }

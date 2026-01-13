@@ -1,0 +1,291 @@
+<?php
+
+use App\Models\CreditCard;
+use App\Models\Team;
+use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+
+new class extends Component
+{
+    public CreditCard $creditCard;
+
+    public string $name_on_card = '';
+
+    public string $card_number = '';
+
+    public string $expiry_month = '';
+
+    public string $expiry_year = '';
+
+    public string $cvv = '';
+
+    public string $name = '';
+
+    public string $notes = '';
+
+    public function mount(): void
+    {
+        $this->resetFormFields();
+    }
+
+    private function resetFormFields(): void
+    {
+        $this->name_on_card = $this->creditCard->name_on_card;
+        $this->card_number = $this->creditCard->card_number;
+        $this->expiry_month = (string) $this->creditCard->expiry_month;
+        $this->expiry_year = (string) $this->creditCard->expiry_year;
+        $this->cvv = $this->creditCard->cvv;
+        $this->name = $this->creditCard->name;
+        $this->notes = $this->creditCard->notes ?? '';
+    }
+
+    public function cancelEdit(): void
+    {
+        $this->resetFormFields();
+    }
+
+    #[Computed]
+    public function team(): Team
+    {
+        return Auth::user()->currentTeam;
+    }
+
+    #[Computed]
+    public function existingCardholderNames()
+    {
+        return $this->team
+            ->creditCards()
+            ->pluck('name_on_card')
+            ->unique()
+            ->sort()
+            ->values();
+    }
+
+    public function save(): void
+    {
+        $this->authorize('update', $this->creditCard);
+
+        $this->validate([
+            'name_on_card' => ['required', 'string', 'max:255'],
+            'card_number' => ['required', 'string'],
+            'expiry_month' => ['required', 'integer', 'between:1,12'],
+            'expiry_year' => ['required', 'integer', 'min:'.date('Y')],
+            'cvv' => ['required', 'string', 'max:4'],
+            'name' => ['required', 'string', 'max:255'],
+            'notes' => ['nullable', 'string'],
+        ]);
+
+        $this->creditCard->update([
+            'name_on_card' => $this->name_on_card,
+            'card_number' => $this->card_number,
+            'expiry_month' => (int) $this->expiry_month,
+            'expiry_year' => (int) $this->expiry_year,
+            'cvv' => $this->cvv,
+            'name' => $this->name,
+            'notes' => $this->notes ?: null,
+        ]);
+
+        Flux::modal("edit-credit-card-{$this->creditCard->id}")->close();
+    }
+};
+?>
+
+<li {{ $attributes }}>
+    <div
+        class="relative flex justify-between gap-x-6 rounded-lg px-3.5 py-2.5 hover:bg-zinc-950/2.5 sm:px-3 sm:py-1.5 dark:hover:bg-white/2.5"
+    >
+        <div class="flex min-w-0 gap-x-4">
+            <div class="shrink-0 max-sm:-mt-0.5">
+                <flux:avatar size="xs" class="bg-transparent">
+                    <flux:icon.credit-card variant="outline" class="text-zinc-500 dark:text-zinc-400" />
+                </flux:avatar>
+            </div>
+            <div class="min-w-0 flex-auto">
+                <flux:heading class="truncate">
+                    <flux:modal.trigger name="view-credit-card-{{ $creditCard->id }}">
+                        <span class="absolute inset-x-0 -top-px bottom-0"></span>
+                        {{ $creditCard->name }}
+                    </flux:modal.trigger>
+                </flux:heading>
+                <flux:text size="sm">
+                    {{ $creditCard->maskedNumber }}
+                </flux:text>
+            </div>
+        </div>
+        <div class="flex shrink-0 items-center gap-x-4">
+            <flux:dropdown align="end">
+                <flux:button icon="ellipsis-horizontal" variant="ghost" square class="-mr-2" />
+
+                <flux:menu>
+                    <flux:modal.trigger name="view-credit-card-{{ $creditCard->id }}">
+                        <flux:menu.item icon="eye">View</flux:menu.item>
+                    </flux:modal.trigger>
+                    <flux:modal.trigger name="edit-credit-card-{{ $creditCard->id }}">
+                        <flux:menu.item icon="pencil">Edit</flux:menu.item>
+                    </flux:modal.trigger>
+                    <flux:modal.trigger name="delete-credit-card-{{ $creditCard->id }}">
+                        <flux:menu.item variant="danger" icon="trash">Delete</flux:menu.item>
+                    </flux:modal.trigger>
+                </flux:menu>
+            </flux:dropdown>
+        </div>
+    </div>
+
+    <flux:modal name="view-credit-card-{{ $creditCard->id }}" :closable="false" class="w-full sm:max-w-lg">
+        <div class="space-y-8">
+            <div class="space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-4">
+                        <flux:avatar size="md">
+                            <flux:icon.credit-card variant="outline" class="text-zinc-500 dark:text-zinc-400" />
+                        </flux:avatar>
+                        <div>
+                            <flux:heading size="lg">{{ $creditCard->name }}</flux:heading>
+                            <flux:text size="sm">{{ $creditCard->name_on_card }}</flux:text>
+                        </div>
+                    </div>
+                    <flux:modal.trigger name="edit-credit-card-{{ $creditCard->id }}">
+                        <flux:button class="-my-0.5">Edit</flux:button>
+                    </flux:modal.trigger>
+                </div>
+
+                <flux:input
+                    wire:key="view-card-number"
+                    :value="$creditCard->card_number"
+                    label="Card number"
+                    type="password"
+                    readonly
+                    variant="filled"
+                    copyable
+                    viewable
+                />
+
+                <div class="grid gap-4 sm:grid-cols-3">
+                    <flux:input
+                        wire:key="view-expiry-month"
+                        :value="str_pad($creditCard->expiry_month, 2, '0', STR_PAD_LEFT)"
+                        label="Month"
+                        readonly
+                        variant="filled"
+                        copyable
+                    />
+
+                    <flux:input
+                        wire:key="view-expiry-year"
+                        :value="$creditCard->expiry_year"
+                        label="Year"
+                        readonly
+                        variant="filled"
+                        copyable
+                    />
+
+                    <flux:input
+                        wire:key="view-cvv"
+                        :value="$creditCard->cvv"
+                        label="CVV"
+                        type="password"
+                        readonly
+                        variant="filled"
+                        copyable
+                        viewable
+                    />
+                </div>
+
+                <flux:input
+                    wire:key="view-name-on-card"
+                    :value="$creditCard->name_on_card"
+                    label="Name on card"
+                    readonly
+                    variant="filled"
+                    copyable
+                />
+
+                @if ($creditCard->notes)
+                    <flux:accordion>
+                        <flux:accordion.item heading="Notes">
+                            <x-prose>
+                                {!! $creditCard->sanitizedNotes() !!}
+                            </x-prose>
+                        </flux:accordion.item>
+                    </flux:accordion>
+                @endif
+            </div>
+        </div>
+    </flux:modal>
+
+    <flux:modal name="edit-credit-card-{{ $creditCard->id }}" class="w-full sm:max-w-lg">
+        <form wire:submit="save" class="space-y-8">
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <flux:heading size="lg">Edit credit card</flux:heading>
+                    </div>
+                    <flux:text>Update your credit card details below.</flux:text>
+                </div>
+
+                <flux:autocomplete wire:model="name_on_card" label="Name on card" required>
+                    @foreach ($this->existingCardholderNames as $existingName)
+                        <flux:autocomplete.item>
+                            {{ $existingName }}
+                        </flux:autocomplete.item>
+                    @endforeach
+                </flux:autocomplete>
+
+                <flux:input wire:model="card_number" label="Card number" type="password" required viewable copyable />
+
+                <div class="grid gap-4 sm:grid-cols-3">
+                    <flux:select wire:model="expiry_month" label="Month" required>
+                        @for($i = 1; $i <= 12; $i++)
+                            <flux:select.option value="{{ $i }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</flux:select.option>
+                        @endfor
+                    </flux:select>
+
+                    <flux:select wire:model="expiry_year" label="Year" required>
+                        @for($i = date('Y'); $i <= date('Y') + 10; $i++)
+                            <flux:select.option value="{{ $i }}">{{ $i }}</flux:select.option>
+                        @endfor
+                    </flux:select>
+
+                    <flux:input wire:model="cvv" label="CVV" type="password" required viewable />
+                </div>
+
+                <flux:input wire:model="name" label="Name" type="text" placeholder="e.g., Personal Visa" required />
+
+                <flux:editor
+                    wire:model="notes"
+                    label="Notes"
+                    label:sr-only
+                    placeholder="Notes"
+                    class="**:data-[slot=content]:min-h-[100px]!"
+                />
+            </div>
+
+            <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
+                <flux:modal.close>
+                    <flux:button wire:click="cancelEdit" variant="ghost" class="w-full sm:w-auto">Cancel</flux:button>
+                </flux:modal.close>
+                <flux:button type="submit" variant="primary">Save</flux:button>
+            </div>
+        </form>
+    </flux:modal>
+
+    <flux:modal name="delete-credit-card-{{ $creditCard->id }}" class="w-full max-w-xs sm:max-w-md">
+        <div class="space-y-6 sm:space-y-4">
+            <div>
+                <flux:heading>Are you sure you want to delete this credit card?</flux:heading>
+                <flux:text class="mt-2">
+                    This will permanently delete credit card "{{ $creditCard->name }}". This action
+                    cannot be reversed.
+                </flux:text>
+            </div>
+            <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
+                <flux:modal.close>
+                    <flux:button variant="ghost" class="w-full sm:w-auto">Cancel</flux:button>
+                </flux:modal.close>
+                <flux:button wire:click="$parent.delete({{ $creditCard->id }})" variant="primary">Delete</flux:button>
+            </div>
+        </div>
+    </flux:modal>
+</li>

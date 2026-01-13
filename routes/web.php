@@ -22,6 +22,7 @@ Route::middleware([
 
 Route::middleware(['auth'])->group(function () {
     Route::livewire('passwords', 'pages::passwords.index')->name('passwords.index');
+    Route::livewire('credit-cards', 'pages::credit-cards.index')->name('credit-cards.index');
 
     Route::livewire('teams/create', 'pages::teams.create')->name('teams.create');
     Route::livewire('teams/{team}', 'pages::teams.show')->name('teams.edit');

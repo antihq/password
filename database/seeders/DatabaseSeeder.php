@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CreditCard;
 use App\Models\Password;
 use App\Models\Team;
 use App\Models\User;
@@ -19,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->seedSharedTeams();
         $this->seedTeamMemberships();
         $this->seedPasswords();
+        $this->seedCreditCards();
     }
 
     private function seedUsers(): void
@@ -84,6 +86,25 @@ class DatabaseSeeder extends Seeder
         foreach ($this->sharedTeams as $team) {
             $count = fake()->numberBetween(8, 12);
             Password::factory()->count($count)->create(['team_id' => $team->id]);
+        }
+    }
+
+    private function seedCreditCards(): void
+    {
+        $personalTeams = $this->users->pluck('ownedTeams')->flatten();
+
+        foreach ($personalTeams as $team) {
+            if (! $team->personal_team) {
+                continue;
+            }
+
+            $count = fake()->numberBetween(3, 5);
+            CreditCard::factory()->count($count)->create(['team_id' => $team->id]);
+        }
+
+        foreach ($this->sharedTeams as $team) {
+            $count = fake()->numberBetween(5, 8);
+            CreditCard::factory()->count($count)->create(['team_id' => $team->id]);
         }
     }
 }

@@ -1,11 +1,8 @@
 <?php
 
 use App\Models\Password;
-use App\Models\Team;
 use App\Models\User;
 use Livewire\Livewire;
-
-use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
     $this->user = User::factory()->withPersonalTeam()->create();

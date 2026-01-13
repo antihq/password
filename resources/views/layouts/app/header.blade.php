@@ -30,6 +30,13 @@
                 >
                     Passwords
                 </flux:sidebar.item>
+                <flux:sidebar.item
+                    :href="route('credit-cards.index')"
+                    :current="request()->routeIs('credit-cards.index')"
+                    wire:navigate
+                >
+                    Credit Cards
+                </flux:sidebar.item>
             </flux:sidebar.nav>
         </flux:sidebar>
 
