@@ -15,9 +15,7 @@ new class extends Component
 
     public string $card_number = '';
 
-    public string $expiry_month = '';
-
-    public string $expiry_year = '';
+    public string $expiry = '';
 
     public string $cvv = '';
 
@@ -34,8 +32,7 @@ new class extends Component
     {
         $this->name_on_card = $this->creditCard->name_on_card;
         $this->card_number = $this->creditCard->card_number;
-        $this->expiry_month = (string) $this->creditCard->expiry_month;
-        $this->expiry_year = (string) $this->creditCard->expiry_year;
+        $this->expiry = sprintf('%02d/%02d', $this->creditCard->expiry_month, substr($this->creditCard->expiry_year, -2));
         $this->cvv = $this->creditCard->cvv;
         $this->name = $this->creditCard->name;
         $this->notes = $this->creditCard->notes ?? '';
@@ -70,18 +67,29 @@ new class extends Component
         $this->validate([
             'name_on_card' => ['required', 'string', 'max:255'],
             'card_number' => ['required', 'string'],
-            'expiry_month' => ['required', 'integer', 'between:1,12'],
-            'expiry_year' => ['required', 'integer', 'min:'.date('Y')],
+            'expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
             'cvv' => ['required', 'string', 'max:4'],
             'name' => ['required', 'string', 'max:255'],
             'notes' => ['nullable', 'string'],
         ]);
 
+        [$month, $shortYear] = explode('/', $this->expiry);
+        $year = 2000 + (int) $shortYear;
+        $month = (int) $month;
+        $currentYear = (int) date('Y');
+        $currentMonth = (int) date('m');
+
+        if ($year < $currentYear || ($year === $currentYear && $month < $currentMonth)) {
+            $this->addError('expiry', 'The expiry date must be in the future.');
+
+            return;
+        }
+
         $this->creditCard->update([
             'name_on_card' => $this->name_on_card,
             'card_number' => $this->card_number,
-            'expiry_month' => (int) $this->expiry_month,
-            'expiry_year' => (int) $this->expiry_year,
+            'expiry_month' => $month,
+            'expiry_year' => $year,
             'cvv' => $this->cvv,
             'name' => $this->name,
             'notes' => $this->notes ?: null,
@@ -109,9 +117,9 @@ new class extends Component
                         {{ $creditCard->name }}
                     </flux:modal.trigger>
                 </flux:heading>
-                <flux:text size="sm">
-                    {{ $creditCard->maskedNumber }}
-                </flux:text>
+                 <flux:text size="sm">
+                    {{ $creditCard->name_on_card }}
+                 </flux:text>
             </div>
         </div>
         <div class="flex shrink-0 items-center gap-x-4">
@@ -151,31 +159,29 @@ new class extends Component
                     </flux:modal.trigger>
                 </div>
 
-                <flux:input
+                 <flux:input
                     wire:key="view-card-number"
                     :value="$creditCard->card_number"
                     label="Card number"
-                    type="password"
                     readonly
                     variant="filled"
                     copyable
-                    viewable
+                 />
+
+                <flux:input
+                    wire:key="view-name-on-card"
+                    :value="$creditCard->name_on_card"
+                    label="Name on card"
+                    readonly
+                    variant="filled"
+                    copyable
                 />
 
-                <div class="grid gap-4 sm:grid-cols-3">
+                <div class="grid gap-4 sm:grid-cols-2">
                     <flux:input
-                        wire:key="view-expiry-month"
-                        :value="str_pad($creditCard->expiry_month, 2, '0', STR_PAD_LEFT)"
-                        label="Month"
-                        readonly
-                        variant="filled"
-                        copyable
-                    />
-
-                    <flux:input
-                        wire:key="view-expiry-year"
-                        :value="$creditCard->expiry_year"
-                        label="Year"
+                        wire:key="view-expiry"
+                        :value="sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2))"
+                        label="Expiry"
                         readonly
                         variant="filled"
                         copyable
@@ -192,15 +198,6 @@ new class extends Component
                         viewable
                     />
                 </div>
-
-                <flux:input
-                    wire:key="view-name-on-card"
-                    :value="$creditCard->name_on_card"
-                    label="Name on card"
-                    readonly
-                    variant="filled"
-                    copyable
-                />
 
                 @if ($creditCard->notes)
                     <flux:accordion>
@@ -235,18 +232,8 @@ new class extends Component
 
                 <flux:input wire:model="card_number" label="Card number" type="password" required viewable copyable />
 
-                <div class="grid gap-4 sm:grid-cols-3">
-                    <flux:select wire:model="expiry_month" label="Month" required>
-                        @for($i = 1; $i <= 12; $i++)
-                            <flux:select.option value="{{ $i }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</flux:select.option>
-                        @endfor
-                    </flux:select>
-
-                    <flux:select wire:model="expiry_year" label="Year" required>
-                        @for($i = date('Y'); $i <= date('Y') + 10; $i++)
-                            <flux:select.option value="{{ $i }}">{{ $i }}</flux:select.option>
-                        @endfor
-                    </flux:select>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <flux:input wire:model="expiry" mask="99/99" label="Expiry" placeholder="MM/YY" required />
 
                     <flux:input wire:model="cvv" label="CVV" type="password" required viewable />
                 </div>

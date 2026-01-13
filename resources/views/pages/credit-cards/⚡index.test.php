@@ -17,8 +17,8 @@ it('can view credit cards list', function () {
     $this->actingAs($this->user)
         ->get(route('credit-cards.index'))
         ->assertStatus(200)
-        ->assertSee($creditCard->name_on_card)
-        ->assertSee($creditCard->maskedNumber);
+        ->assertSee($creditCard->name)
+        ->assertSee($creditCard->name_on_card);
 });
 
 it('cannot view credit cards from other teams', function () {

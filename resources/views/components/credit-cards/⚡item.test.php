@@ -16,8 +16,7 @@ it('mounts with pre-populated form values', function () {
 
     $component->assertSet('name_on_card', $creditCard->name_on_card)
         ->assertSet('card_number', $creditCard->card_number)
-        ->assertSet('expiry_month', (string) $creditCard->expiry_month)
-        ->assertSet('expiry_year', (string) $creditCard->expiry_year)
+        ->assertSet('expiry', sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)))
         ->assertSet('cvv', $creditCard->cvv)
         ->assertSet('name', $creditCard->name);
 });
@@ -30,8 +29,7 @@ it('can cancel edit mode', function () {
 
     $component->set('name_on_card', 'Modified Name')
         ->set('card_number', '5555555555554444')
-        ->set('expiry_month', 6)
-        ->set('expiry_year', 2028)
+        ->set('expiry', '06/28')
         ->set('cvv', '456')
         ->set('name', 'Modified Card');
 
@@ -39,8 +37,7 @@ it('can cancel edit mode', function () {
 
     $component->assertSet('name_on_card', $creditCard->name_on_card)
         ->assertSet('card_number', $creditCard->card_number)
-        ->assertSet('expiry_month', (string) $creditCard->expiry_month)
-        ->assertSet('expiry_year', (string) $creditCard->expiry_year)
+        ->assertSet('expiry', sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)))
         ->assertSet('cvv', $creditCard->cvv)
         ->assertSet('name', $creditCard->name);
 });
@@ -52,8 +49,7 @@ it('can update credit card from modal', function () {
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Updated Name')
         ->set('card_number', '5555555555554444')
-        ->set('expiry_month', 6)
-        ->set('expiry_year', 2028)
+        ->set('expiry', '06/28')
         ->set('cvv', '456')
         ->set('name', 'Updated Card')
         ->call('save');
@@ -79,11 +75,10 @@ it('validates required fields when updating credit card', function () {
 
     $component->set('name_on_card', '')
         ->set('card_number', '')
-        ->set('expiry_month', '')
-        ->set('expiry_year', '')
+        ->set('expiry', '')
         ->set('cvv', '')
         ->call('save')
-        ->assertHasErrors(['name_on_card', 'card_number', 'expiry_month', 'expiry_year', 'cvv']);
+        ->assertHasErrors(['name_on_card', 'card_number', 'expiry', 'cvv']);
 });
 
 it('validates expiry month is between 1 and 12 when updating', function () {
@@ -93,25 +88,24 @@ it('validates expiry month is between 1 and 12 when updating', function () {
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Test Name')
         ->set('card_number', '4242424242424242')
-        ->set('expiry_month', 13)
-        ->set('expiry_year', 2027)
+        ->set('expiry', '13/27')
         ->set('cvv', '123')
         ->call('save')
-        ->assertHasErrors(['expiry_month']);
+        ->assertHasErrors(['expiry']);
 });
 
 it('validates expiry year is not in the past when updating', function () {
     $creditCard = CreditCard::factory()->create(['team_id' => $this->user->currentTeam->id]);
+    $pastYear = substr((string) (date('Y') - 1), -2);
 
     Livewire::actingAs($this->user)
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Test Name')
         ->set('card_number', '4242424242424242')
-        ->set('expiry_month', 12)
-        ->set('expiry_year', (int) date('Y') - 1)
+        ->set('expiry', '12/'.$pastYear)
         ->set('cvv', '123')
         ->call('save')
-        ->assertHasErrors(['expiry_year']);
+        ->assertHasErrors(['expiry']);
 });
 
 it('validates cvv max length when updating', function () {
@@ -121,8 +115,7 @@ it('validates cvv max length when updating', function () {
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Test Name')
         ->set('card_number', '4242424242424242')
-        ->set('expiry_month', 12)
-        ->set('expiry_year', 2027)
+        ->set('expiry', '12/27')
         ->set('cvv', '12345')
         ->call('save')
         ->assertHasErrors(['cvv']);
@@ -138,8 +131,7 @@ it('can save credit card with all fields', function () {
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Updated Name')
         ->set('card_number', '4242424242424242')
-        ->set('expiry_month', 12)
-        ->set('expiry_year', 2027)
+        ->set('expiry', '12/27')
         ->set('cvv', '123')
         ->set('name', 'Business Mastercard')
         ->call('save');
@@ -158,8 +150,7 @@ it('can save credit card with notes', function () {
         ->test('credit-cards.item', ['creditCard' => $creditCard])
         ->set('name_on_card', 'Test Name')
         ->set('card_number', '4242424242424242')
-        ->set('expiry_month', 12)
-        ->set('expiry_year', 2027)
+        ->set('expiry', '12/27')
         ->set('cvv', '123')
         ->set('notes', 'Updated notes')
         ->call('save');
