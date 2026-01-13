@@ -9,6 +9,8 @@ use Livewire\Component;
 
 new #[Title('Passwords')] class extends Component
 {
+    public $search = '';
+
     public $name = '';
 
     public $username = '';
@@ -33,10 +35,13 @@ new #[Title('Passwords')] class extends Component
     #[Computed]
     public function passwords()
     {
-        return $this->team
-            ->passwords()
-            ->orderBy('name')
-            ->get();
+        $query = $this->team->passwords();
+
+        if ($this->search) {
+            $query->where('name', 'like', "%{$this->search}%");
+        }
+
+        return $query->orderBy('name')->get();
     }
 
     public function generatePassword(): void
@@ -86,12 +91,20 @@ new #[Title('Passwords')] class extends Component
 ?>
 
 <section class="mx-auto max-w-3xl space-y-8">
-    <div class="flex items-center justify-between">
-        <flux:heading size="xl">Passwords</flux:heading>
+    <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="max-sm:w-full sm:flex-1">
+            <flux:heading size="xl">Passwords</flux:heading>
 
-        @if ($this->passwords->isNotEmpty())
+            @if ($this->passwords->isNotEmpty() || $this->search)
+                <div class="mt-4 flex max-w-xl gap-4">
+                    <flux:input wire:model.live="search" type="search" placeholder="Search" class="flex-1" label:sr-only="Search" icon="magnifying-glass" />
+                </div>
+            @endif
+        </div>
+
+        @if ($this->passwords->isNotEmpty() || $this->search)
             <flux:modal.trigger name="create-password">
-                <flux:button variant="primary" class="-my-0.5">Add password</flux:button>
+                <flux:button variant="primary">Add password</flux:button>
             </flux:modal.trigger>
         @endif
     </div>
@@ -111,16 +124,24 @@ new #[Title('Passwords')] class extends Component
         </div>
     @else
         <div class="text-center">
-            <div class="mx-auto flex items-center justify-center">
-                <flux:icon.key variant="outline" class="size-6 text-zinc-500 dark:text-zinc-400" />
-            </div>
-            <flux:heading class="mt-2">No passwords</flux:heading>
-            <flux:text class="mt-1">Get started by adding a new password.</flux:text>
-            <div class="mt-6">
-                <flux:modal.trigger name="create-password">
-                    <flux:button variant="primary">Add password</flux:button>
-                </flux:modal.trigger>
-            </div>
+            @if ($this->search)
+                <div class="mx-auto flex items-center justify-center">
+                    <flux:icon.magnifying-glass variant="outline" class="size-6 text-zinc-500 dark:text-zinc-400" />
+                </div>
+                <flux:heading class="mt-2">No results found</flux:heading>
+                <flux:text class="mt-1">Try adjusting your search term.</flux:text>
+            @else
+                <div class="mx-auto flex items-center justify-center">
+                    <flux:icon.key variant="outline" class="size-6 text-zinc-500 dark:text-zinc-400" />
+                </div>
+                <flux:heading class="mt-2">No passwords</flux:heading>
+                <flux:text class="mt-1">Get started by adding a new password.</flux:text>
+                <div class="mt-6">
+                    <flux:modal.trigger name="create-password">
+                        <flux:button variant="primary">Add password</flux:button>
+                    </flux:modal.trigger>
+                </div>
+            @endif
         </div>
     @endif
 
