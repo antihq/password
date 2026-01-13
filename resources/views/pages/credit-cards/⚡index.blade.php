@@ -41,7 +41,7 @@ new #[Title('Credit Cards')] class extends Component
             });
         }
 
-        return $query->orderBy('name_on_card')->get();
+        return $query->orderBy('name')->get();
     }
 
     #[Computed]

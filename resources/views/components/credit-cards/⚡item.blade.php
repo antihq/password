@@ -324,8 +324,39 @@ new class extends Component {
         </div>
     </flux:modal>
 
-    <flux:modal name="edit-credit-card-{{ $creditCard->id }}" class="w-full sm:max-w-lg">
+    <flux:modal name="edit-credit-card-{{ $creditCard->id }}" class="w-full sm:max-w-lg" @close="$refresh">
         @island(lazy: true)
+            @placeholder
+                <div class="space-y-8">
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <flux:skeleton class="h-7 w-1/3" />
+                            </div>
+                            <flux:skeleton.line class="w-2/3" />
+                        </div>
+
+                        <flux:skeleton.line class="h-10" />
+
+                        <flux:skeleton.line class="h-10" />
+
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <flux:skeleton.line class="h-10" />
+                            <flux:skeleton.line class="h-10" />
+                        </div>
+
+                        <flux:skeleton.line class="h-10" />
+
+                        <flux:skeleton class="h-[100px] w-full rounded-lg" />
+                    </div>
+
+                    <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">
+                        <flux:skeleton class="h-10 w-20" />
+                        <flux:skeleton class="h-10 w-20" />
+                    </div>
+                </div>
+            @endplaceholder
+
             <form wire:submit="save" class="space-y-8">
                 <div class="space-y-6">
                     <div class="space-y-2">
