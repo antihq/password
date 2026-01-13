@@ -55,6 +55,18 @@ new class extends Component {
             ->values();
     }
 
+    public function generateNewPassword(): void
+    {
+        $lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        $alphanumeric = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+        $part1 = substr(str_shuffle(str_repeat($lowercase, 3)), 0, 6);
+        $part2 = substr(str_shuffle(str_repeat($alphanumeric, 3)), 0, 6);
+        $part3 = ucfirst(substr(str_shuffle(str_repeat($lowercase, 3)), 0, 6));
+
+        $this->newPassword = sprintf('%s-%s-%s', $part1, $part2, $part3);
+    }
+
     public function save(): void
     {
         $this->authorize('update', $this->password);
@@ -229,7 +241,11 @@ new class extends Component {
                     @endforeach
                 </flux:autocomplete>
 
-                <flux:input wire:model="newPassword" label="Password" type="text" required />
+                <flux:input wire:model="newPassword" label="Password" type="password" required viewable copyable>
+                    <x-slot name="iconTrailing">
+                        <flux:button size="sm" variant="subtle" icon="sparkles" icon:variant="micro" class="-mr-1" square wire:click="generateNewPassword" />
+                    </x-slot>
+                </flux:input>
 
                 <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
 
