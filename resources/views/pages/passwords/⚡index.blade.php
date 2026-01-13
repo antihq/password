@@ -44,6 +44,18 @@ new #[Title('Passwords')] class extends Component
         return $query->orderBy('name')->get();
     }
 
+    #[Computed]
+    public function existingUsernames()
+    {
+        return $this->team
+            ->passwords()
+            ->pluck('username')
+            ->unique()
+            ->sort()
+            ->values()
+            ->take(20);
+    }
+
     public function generatePassword(): void
     {
         $lowercase = 'abcdefghijklmnopqrstuvwxyz';
@@ -155,7 +167,13 @@ new #[Title('Passwords')] class extends Component
 
                 <flux:input wire:model="name" label="Name" type="text" required autofocus />
 
-                <flux:input wire:model="username" label="Username" type="text" required />
+                <flux:autocomplete wire:model="username" label="Username" required>
+                    @foreach ($this->existingUsernames as $existingUsername)
+                        <flux:autocomplete.item>
+                            {{ $existingUsername }}
+                        </flux:autocomplete.item>
+                    @endforeach
+                </flux:autocomplete>
 
                 <flux:input wire:model="password" label="Password" type="password" required viewable copyable>
                     <x-slot name="iconTrailing">

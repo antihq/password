@@ -1,7 +1,10 @@
 <?php
 
 use App\Models\Password;
+use App\Models\Team;
 use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component {
@@ -33,6 +36,24 @@ new class extends Component {
         $this->newPassword = $this->password->password;
         $this->website = $this->password->website ?? '';
         $this->notes = $this->password->notes ?? '';
+    }
+
+    #[Computed]
+    public function team(): Team
+    {
+        return Auth::user()->currentTeam;
+    }
+
+    #[Computed]
+    public function existingUsernames()
+    {
+        return $this->team
+            ->passwords()
+            ->pluck('username')
+            ->unique()
+            ->sort()
+            ->values()
+            ->take(20);
     }
 
     public function save(): void
@@ -201,7 +222,13 @@ new class extends Component {
 
                 <flux:input wire:model="name" label="Name" type="text" required />
 
-                <flux:input wire:model="username" label="Username" type="text" required />
+                <flux:autocomplete wire:model="username" label="Username" required>
+                    @foreach ($this->existingUsernames as $existingUsername)
+                        <flux:autocomplete.item>
+                            {{ $existingUsername }}
+                        </flux:autocomplete.item>
+                    @endforeach
+                </flux:autocomplete>
 
                 <flux:input wire:model="newPassword" label="Password" type="text" required />
 
