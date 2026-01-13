@@ -66,14 +66,14 @@ new class extends Component {
     >
         <div class="flex min-w-0 gap-x-4">
             <div class="shrink-0 max-sm:-mt-0.5">
-                @if($password->avatar_url)
+                @if ($password->avatar_url)
                     <flux:avatar :src="$password->avatar_url" size="xs" class="bg-transparent" />
                 @else
                     <flux:avatar size="xs">
                         <x-boring-avatar
                             :name="$password->name"
                             variant="marble"
-                            class="size-7 sm:size-6 rounded-[var(--avatar-radius)]"
+                            class="size-7 rounded-[var(--avatar-radius)] sm:size-6"
                             square
                         />
                     </flux:avatar>
@@ -112,16 +112,16 @@ new class extends Component {
     <flux:modal name="view-password-{{ $password->id }}" :closable="false" class="w-full sm:max-w-lg">
         <div class="space-y-8">
             <div class="space-y-6">
-                <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-4">
-                        @if($password->avatar_url)
+                        @if ($password->avatar_url)
                             <flux:avatar :src="$password->avatar_url" size="md" />
                         @else
                             <flux:avatar size="md">
                                 <x-boring-avatar
                                     :name="$password->name"
                                     variant="marble"
-                                    class="size-11 sm:size-10 rounded-[var(--avatar-radius)]"
+                                    class="size-11 rounded-[var(--avatar-radius)] sm:size-10"
                                     square
                                 />
                             </flux:avatar>
@@ -153,7 +153,7 @@ new class extends Component {
                     viewable
                 />
 
-                @if($password->website)
+                @if ($password->website)
                     <flux:input
                         wire:key="view-website"
                         :value="$password->website"
@@ -164,13 +164,20 @@ new class extends Component {
                     >
                         <x-slot name="iconTrailing">
                             <a href="{{ $password->website }}" target="_blank" rel="noopener noreferrer">
-                                <flux:button size="sm" variant="subtle" icon="arrow-top-right-on-square" icon:variant="micro" class="-mr-1" square />
+                                <flux:button
+                                    size="sm"
+                                    variant="subtle"
+                                    icon="arrow-top-right-on-square"
+                                    icon:variant="micro"
+                                    class="-mr-1"
+                                    square
+                                />
                             </a>
                         </x-slot>
                     </flux:input>
                 @endif
 
-                @if($password->notes)
+                @if ($password->notes)
                     <flux:accordion>
                         <flux:accordion.item heading="Notes">
                             <x-prose>
@@ -200,7 +207,13 @@ new class extends Component {
 
                 <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
 
-                <flux:editor wire:model="notes" label="Notes" label:sr-only placeholder="Notes" />
+                <flux:editor
+                    wire:model="notes"
+                    label="Notes"
+                    label:sr-only
+                    placeholder="Notes"
+                    class="**:data-[slot=content]:min-h-[100px]!"
+                />
             </div>
 
             <div class="flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto">

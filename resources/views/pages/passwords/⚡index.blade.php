@@ -144,7 +144,7 @@ new #[Title('Passwords')] class extends Component
 
                 <flux:input wire:model="website" label="Website" type="url" placeholder="https://example.com" />
 
-                <flux:editor wire:model="notes" label="Notes" label:sr-only placeholder="Notes" />
+                <flux:editor wire:model="notes" label="Notes" label:sr-only placeholder="Notes" class="**:data-[slot=content]:min-h-[100px]!" />
             </div>
 
             <div
