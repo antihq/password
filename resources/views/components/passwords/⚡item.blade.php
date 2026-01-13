@@ -52,8 +52,7 @@ new class extends Component {
             ->pluck('username')
             ->unique()
             ->sort()
-            ->values()
-            ->take(20);
+            ->values();
     }
 
     public function save(): void

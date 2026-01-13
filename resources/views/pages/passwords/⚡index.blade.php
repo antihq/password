@@ -52,8 +52,7 @@ new #[Title('Passwords')] class extends Component
             ->pluck('username')
             ->unique()
             ->sort()
-            ->values()
-            ->take(20);
+            ->values();
     }
 
     public function generatePassword(): void
