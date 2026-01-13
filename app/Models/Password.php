@@ -43,13 +43,9 @@ class Password extends Model
 
     public function sanitizedNotes(): ?string
     {
-        if (empty($this->notes)) {
-            return null;
-        }
-
-        return (new Editor([
-            'extensions' => [new StarterKit, new Link],
-        ]))->sanitize($this->notes);
+        return $this->notes
+            ? (new Editor(['extensions' => [new StarterKit, new Link]]))->sanitize($this->notes)
+            : null;
     }
 
     protected function casts(): array

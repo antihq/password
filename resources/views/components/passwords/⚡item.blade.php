@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-new class extends Component {
+new class extends Component
+{
     public Password $password;
 
     public string $name = '';
@@ -22,6 +23,11 @@ new class extends Component {
 
     public function mount(): void
     {
+        $this->resetFormFields();
+    }
+
+    private function resetFormFields(): void
+    {
         $this->name = $this->password->name;
         $this->username = $this->password->username;
         $this->newPassword = $this->password->password;
@@ -31,11 +37,7 @@ new class extends Component {
 
     public function cancelEdit(): void
     {
-        $this->name = $this->password->name;
-        $this->username = $this->password->username;
-        $this->newPassword = $this->password->password;
-        $this->website = $this->password->website ?? '';
-        $this->notes = $this->password->notes ?? '';
+        $this->resetFormFields();
     }
 
     #[Computed]
@@ -58,13 +60,13 @@ new class extends Component {
     public function generateNewPassword(): void
     {
         $lowercase = 'abcdefghijklmnopqrstuvwxyz';
-        $alphanumeric = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $alphanumeric = $lowercase.'0123456789';
 
         $part1 = substr(str_shuffle(str_repeat($lowercase, 3)), 0, 6);
         $part2 = substr(str_shuffle(str_repeat($alphanumeric, 3)), 0, 6);
         $part3 = ucfirst(substr(str_shuffle(str_repeat($lowercase, 3)), 0, 6));
 
-        $this->newPassword = sprintf('%s-%s-%s', $part1, $part2, $part3);
+        $this->newPassword = "{$part1}-{$part2}-{$part3}";
     }
 
     public function save(): void

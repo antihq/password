@@ -58,13 +58,13 @@ new #[Title('Passwords')] class extends Component
     public function generatePassword(): void
     {
         $lowercase = 'abcdefghijklmnopqrstuvwxyz';
-        $alphanumeric = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $alphanumeric = $lowercase.'0123456789';
 
         $part1 = substr(str_shuffle(str_repeat($lowercase, 3)), 0, 6);
         $part2 = substr(str_shuffle(str_repeat($alphanumeric, 3)), 0, 6);
         $part3 = ucfirst(substr(str_shuffle(str_repeat($lowercase, 3)), 0, 6));
 
-        $this->password = sprintf('%s-%s-%s', $part1, $part2, $part3);
+        $this->password = "{$part1}-{$part2}-{$part3}";
     }
 
     public function create(): void
@@ -94,7 +94,7 @@ new #[Title('Passwords')] class extends Component
 
     public function delete($id)
     {
-        $password = $this->team()->passwords()->findOrFail($id);
+        $password = $this->team->passwords()->findOrFail($id);
 
         $this->authorize('delete', $password);
 
