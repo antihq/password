@@ -116,7 +116,7 @@ new #[Title('Passwords')] class extends Component
                     <livewire:passwords.item :$password key="password-{{ $password->id }}" />
                     @unless($loop->last)
                         <li class="mx-3.5 my-1 h-px sm:mx-3">
-                            <flux:separator variant="subtle" />
+                            <flux:separator variant="subtle" wire:key="separator-{{ $password->id }}" />
                         </li>
                     @endunless
                 @endforeach
