@@ -7,14 +7,13 @@
         </div>
     </flux:main>
 
-    <flux:footer class="px-6! py-3!">
-        <flux:text class="text-xs lg:text-sm">
+    <flux:footer class="px-6! py-3! flex sm:mx-auto">
+        <flux:text class="text-sm/5 sm:text-[13px]/5">
             <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
             is designed, built, and backed by
-            <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
-            . Need help? Send an email to
-            <flux:link href="mailto:oliver@antihq.com" :accent="false">oliver@antihq.com</flux:link>
-            .
+            <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>.
+            Need help? Send an email to
+            <flux:link href="mailto:oliver@antihq.com" :accent="false">oliver@antihq.com</flux:link>.
         </flux:text>
     </flux:footer>
 
