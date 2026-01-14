@@ -2,8 +2,8 @@
 
 use function Pest\Laravel\get;
 
-it('redirects to dashboard', function () {
+it('redirects to welcome', function () {
     $response = get('/');
 
-    $response->assertRedirect('/dashboard');
+    $response->assertRedirect('/welcome');
 });
