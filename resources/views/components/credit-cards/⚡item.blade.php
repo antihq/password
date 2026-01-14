@@ -4,7 +4,6 @@ use App\Models\CreditCard;
 use App\Models\Team;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Js;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -205,7 +204,7 @@ new class extends Component {
                                 inset="right"
                                 square
                                 x-data="{ copied: false }"
-                                data-copy-value="{{ Js::from(preg_replace('/\s+/', '', $creditCard->card_number)) }}"
+                                data-copy-value="{{ preg_replace('/\s+/', '', $creditCard->card_number) }}"
                                 x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue); setTimeout(() => (copied = false), 2000)"
                                 x-bind:data-copyable-copied="copied"
                             >
@@ -231,7 +230,7 @@ new class extends Component {
                                 inset="right"
                                 square
                                 x-data="{ copied: false }"
-                                data-copy-value="{{ Js::from($creditCard->name_on_card) }}"
+                                data-copy-value="{{ $creditCard->name_on_card }}"
                                 x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue); setTimeout(() => (copied = false), 2000)"
                                 x-bind:data-copyable-copied="copied"
                             >
@@ -259,7 +258,7 @@ new class extends Component {
                                 inset="right"
                                 square
                                 x-data="{ copied: false }"
-                                data-copy-value="{{ Js::from(sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2))) }}"
+                                data-copy-value="{{ sprintf('%02d/%02d', $creditCard->expiry_month, substr($creditCard->expiry_year, -2)) }}"
                                 x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue); setTimeout(() => (copied = false), 2000)"
                                 x-bind:data-copyable-copied="copied"
                             >
@@ -293,7 +292,7 @@ new class extends Component {
                                     inset="right"
                                     square
                                     x-data="{ copied: false }"
-                                    data-copy-value="{{ Js::from($creditCard->cvv) }}"
+                                    data-copy-value="{{ $creditCard->cvv }}"
                                     x-on:click="copied = ! copied; navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue); setTimeout(() => (copied = false), 2000)"
                                     x-bind:data-copyable-copied="copied"
                                 >

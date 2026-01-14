@@ -4,7 +4,6 @@ use App\Models\Password;
 use App\Models\Team;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Js;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -186,7 +185,7 @@ new class extends Component {
                                 inset="right"
                                 square
                                 x-data="{ copied: false }"
-                                data-copy-value="{{ Js::from($password->username) }}"
+                                data-copy-value="{{ $password->username }}"
                                 x-on:click="
                                     copied = ! copied
                                     navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue)
@@ -226,7 +225,7 @@ new class extends Component {
                                     inset="right"
                                     square
                                     x-data="{ copied: false }"
-                                    data-copy-value="{{ Js::from($password->password) }}"
+                                    data-copy-value="{{ $password->password }}"
                                     x-on:click="
                                         copied = ! copied
                                         navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue)
@@ -260,7 +259,7 @@ new class extends Component {
                                     inset="right"
                                     square
                                     x-data="{ copied: false }"
-                                    data-copy-value="{{ Js::from($password->website) }}"
+                                    data-copy-value="{{ $password->website }}"
                                     x-on:click="
                                         copied = ! copied
                                         navigator.clipboard && navigator.clipboard.writeText($el.dataset.copyValue)
