@@ -250,7 +250,7 @@ new class extends Component {
                             <div class="space-y-1">
                                 <flux:text>Website</flux:text>
                                 <flux:text variant="strong">
-                                    <flux:link :href="$password->website">{{ $password->website_hostname }}</flux:link>
+                                    <flux:link :href="$password->website" external>{{ $password->website_hostname }}</flux:link>
                                 </flux:text>
                             </div>
                             <div class="flex gap-0.5">
