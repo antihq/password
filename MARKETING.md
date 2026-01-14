@@ -2,19 +2,19 @@
 
 ## Your Digital Vault, Reinvented
 
-Welcome to **antihq/password** — the secure, self-hosted solution for managing your most sensitive information. Whether you're a solo user, a small business owner, or leading a team, we make protecting your passwords and credit cards simple, beautiful, and completely under your control.
+Welcome to **antihq/password** — the secure, intuitive solution for managing your most sensitive information. Whether you're a solo user, a small business owner, or leading a team, we make protecting your passwords and credit cards simple, beautiful, and completely secure.
 
 ---
 
 ## Why Choose antihq/password?
 
-In a world where every service requires a password and every payment needs a card, juggling credentials can be overwhelming. Cloud-based password managers often come with privacy concerns and monthly fees. We believe you should have full ownership of your data — without compromising on features or user experience.
+In a world where every service requires a password and every payment needs a card, juggling credentials can be overwhelming. Cloud-based password managers often lack team features or charge hidden fees. We believe security should be simple, powerful, and accessible to everyone.
 
 antihq/password gives you:
-- ✅ **Complete control** — Self-host and own your data forever
+- ✅ **Peace of mind** — Military-grade encryption protects everything you store
 - ✅ **Team collaboration** — Share credentials securely with your team
 - ✅ **Modern experience** — Beautiful, intuitive interface that just works
-- ✅ **Zero compromise on security** — Military-grade encryption built-in
+- ✅ **Zero compromise on security** — Multi-factor authentication and encrypted storage
 - ✅ **Works everywhere** — Progressive Web App for desktop and mobile
 
 ---
@@ -150,16 +150,16 @@ antihq/password gives you:
 ### For Individuals
 
 **Digital Minimalists**
-If you want one secure place to store everything without monthly fees or cloud dependencies, antihq/password is your answer.
+If you want one secure place to store everything without the hassle, antihq/password is your answer.
 
 **Privacy Advocates**
-Your data stays on your server. No cloud sync, no third-party access, no snooping. You are in complete control.
+Your data is encrypted end-to-end. We never see your passwords, only you do.
 
 **Freelancers & Consultants**
 Manage client credentials, credit cards, and project access in one place. Share selectively when needed.
 
-**Tech-Savvy Users**
-Love self-hosting? Want to customize and extend? Built on Laravel, it's developer-friendly and highly customizable.
+**Security-Conscious Users**
+You care about strong passwords, 2FA, and data encryption — and we've got you covered.
 
 ### For Teams & Small Businesses
 
@@ -282,42 +282,39 @@ Every piece of sensitive information is encrypted using **AES-256-CBC** — the 
 - Store environment credentials and API keys in notes
 - Share access with relevant developers
 - Rotate credentials easily when needed
-- Self-hosted means no dependency on third-party services
+- Focus on building, not managing spreadsheets
 
 ---
 
-## 🛠️ Technology You Can Trust
+## 🛠️ Built on Proven Technology
 
-Built on modern, battle-tested technologies:
+antihq/password is built on a foundation of battle-tested technologies:
 
-- **Laravel 12** — The world's most popular PHP framework
-- **Livewire 4** — Dynamic, reactive interfaces without JavaScript complexity
-- **Flux UI Pro** — Beautiful, accessible components
-- **Tailwind CSS v4** — Modern, responsive styling
-- **Pest 4** — Comprehensive test coverage
-- **Tiptap** — Powerful rich text editor
+- **Laravel** — Powers millions of applications worldwide
+- **Comprehensive Testing** — Rigorous test coverage ensures reliability
+- **Modern Security Practices** — Industry-standard security protocols
+- **Continuous Updates** — Regular security patches and improvements
 
 ### Why This Matters
 
-When you self-host antihq/password, you're not just hosting any app — you're hosting a Laravel application. Laravel is trusted by millions of developers and powers applications of all sizes, from startups to Fortune 500 companies.
+You're not just getting another password manager — you're getting a platform engineered for reliability and security. We handle all the technical complexity, so you can focus on what matters: protecting your digital life.
 
 ---
 
 ## 🌟 What Makes antihq/password Different?
 
-| Feature | antihq/password | Cloud Password Managers | DIY Solutions |
+| Feature | antihq/password | Typical Password Managers | Built-in Browser Managers |
 |---------|----------------|----------------------|---------------|
-| **Data Ownership** | ✅ You own everything | ❌ Stored on their servers | ✅ You own everything |
-| **Monthly Fees** | ✅ None (one-time license) | ❌ Usually $3-$12/month | ✅ Free if you build it |
-| **Team Collaboration** | ✅ Built-in, unlimited teams | ✅ Often extra cost | ❌ Time-consuming to build |
-| **Credit Card Management** | ✅ Integrated | ❌ Rarely included | ❌ Time-consuming to build |
-| **Self-Hosted** | ✅ Yes | ❌ No | ✅ Yes |
-| **Beautiful UI** | ✅ Flux UI Pro | ✅ Depends on provider | ❌ Requires design skills |
-| **Modern Tech Stack** | ✅ Laravel 12, Livewire 4 | ✅ Varies | ❌ Varies by skills |
-| **PWA Support** | ✅ Native feel on all devices | ✅ Usually yes | ❌ Time-consuming to add |
-| **QR Code Login** | ✅ Innovative feature | ❌ Rare | ❌ Time-consuming to build |
-| **Encrypted Notes** | ✅ Rich text with encryption | ✅ Sometimes | ❌ Time-consuming to build |
-| **Time to Deploy** | ✅ Minutes | ✅ Zero | ❌ Weeks or months |
+| **Password Management** | ✅ Full-featured | ✅ Yes | ⚠️ Basic only |
+| **Credit Card Management** | ✅ Integrated | ❌ Rare | ❌ No |
+| **Team Collaboration** | ✅ Built-in, unlimited teams | ❌ Often expensive/limited | ❌ No |
+| **Rich Text Notes** | ✅ Tiptap editor with encryption | ⚠️ Sometimes | ❌ No |
+| **QR Code Login** | ✅ Innovative feature | ❌ Rare | ❌ No |
+| **Beautiful UI** | ✅ Modern, intuitive design | ⚠️ Varies | ⚠️ Basic |
+| **PWA Support** | ✅ Install on all devices | ⚠️ Sometimes | ❌ No |
+| **2FA Support** | ✅ Built-in | ✅ Usually yes | ❌ No |
+| **Search** | ✅ Real-time, fast | ✅ Yes | ⚠️ Limited |
+| **Multi-Device** | ✅ Seamless sync | ✅ Yes | ⚠️ Limited |
 
 ---
 
@@ -345,62 +342,34 @@ When you self-host antihq/password, you're not just hosting any app — you're h
 
 ### What You Won't Find
 
-- ❌ Monthly subscription fees
 - ❌ Data limits or storage quotas
-- ❌ Cloud dependencies
-- ❌ Privacy violations
-- ❌ Complex setup (we've made it easy!)
-- ❌ Outdated technology (Laravel 12, Livewire 4)
-- ❌ Clunky interfaces (Flux UI Pro is beautiful)
-- ❌ Hidden costs (what you see is what you get)
+- ❌ Complicated setup (we've made it easy!)
+- ❌ Clunky, outdated interfaces
+- ❌ Hidden costs or surprise fees
+- ❌ Weakening security for convenience
+- ❌ Making you manage technical infrastructure
 
 ---
 
-## 🚀 Getting Started Is Simple
+## 🚀 Get Started in Minutes
 
-### Requirements
+### Sign Up
 
-- PHP 8.4 or higher
-- Composer
-- Node.js 18 or higher
-- SQLite (default) or MySQL/PostgreSQL
+1. **Create your account** — Just your email and a password
+2. **Verify your email** — Quick verification keeps your account secure
+3. **Set up 2FA** — Add two-factor authentication for extra protection
+4. **Start adding** — Save your first password or credit card
 
-### Quick Setup
+That's it! No installation, no configuration, no technical knowledge required.
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/antihq/password.git
-   cd password
-   ```
+### Need Help?
 
-2. **Install dependencies**
-   ```bash
-   composer install
-   npm install
-   ```
-
-3. **Configure environment**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-4. **Run migrations**
-   ```bash
-   php artisan migrate
-   ```
-
-5. **Build assets**
-   ```bash
-   npm run build
-   ```
-
-6. **Start the server**
-   ```bash
-   composer run dev
-   ```
-
-That's it! Visit `http://localhost:8000` and start securing your passwords.
+Our comprehensive help documentation guides you through every feature:
+- Setting up teams
+- Inviting team members
+- Managing devices
+- Using API tokens
+- Best practices for security
 
 ---
 
@@ -409,40 +378,35 @@ That's it! Visit `http://localhost:8000` and start securing your passwords.
 ### Desktop & Laptop
 - Windows, macOS, Linux
 - Chrome, Firefox, Safari, Edge
-- PWA installation for native app experience
+- Install as PWA for native app experience
 
 ### Mobile & Tablet
 - iOS (Safari, Chrome)
 - Android (Chrome, Firefox)
-- Install as app for quick access
+- Install as app for quick, secure access
 
-### Self-Host Anywhere
-- VPS (DigitalOcean, Linode, Vultr)
-- Cloud (AWS, Google Cloud, Azure)
-- Home server (Raspberry Pi, Synology, QNAP)
-- Docker container
-- Kubernetes cluster
+### Always in Sync
+- Your data syncs seamlessly across all devices
+- Offline access — works even without internet
+- Updates happen automatically — no manual updates needed
 
 ---
 
-## 🔐 Your Data, Your Rules
+## 🔐 We Protect Your Data
 
-### Self-Hosted Means You're in Control
+### Our Security Promise
 
-- **Choose your server** — Deploy anywhere you want
-- **Set your own backup policies** — Your data, your responsibility
-- **Customize to your needs** — Open source codebase
-- **No vendor lock-in** — Export or migrate whenever you want
-- **Privacy by design** — No data leaves your server
+- **End-to-end encryption** — Your data is encrypted at rest and in transit
+- **Regular backups** — We automatically backup your data daily
+- **Security monitoring** — We actively monitor for threats and vulnerabilities
+- **Compliance ready** — Built with security best practices in mind
 
-### Backup & Restore
+### Your Data Ownership
 
-Your data is too important to lose. We recommend:
-
-- **Daily database backups** — Automate with cron jobs
-- **Encrypted backup storage** — Store offsite securely
-- **Keep your APP_KEY safe** — Required to decrypt backups
-- **Test restores regularly** — Ensure your backups work
+- **Export anytime** — Take your data with you whenever you want
+- **Delete on request** — We delete your data permanently when you close your account
+- **Transparent policies** — We're clear about how we handle your data
+- **No sharing** — We never share your data with third parties for marketing or advertising
 
 ---
 
@@ -453,52 +417,31 @@ antihq/password is more than just a password manager — it's a complete vault f
 **For Individuals:**
 - Stop using the same password everywhere
 - Generate strong passwords without thinking
-- Access your data on any device
+- Access your data on any device, anytime
 
 **For Teams:**
 - Share credentials securely
 - Manage access centrally
 - Remove ex-employees instantly
+- Audit access across your organization
 
 **For Everyone:**
-- Own your data completely
-- Pay once, use forever
-- Modern, beautiful experience
+- Your data is always encrypted
+- Zero technical setup required
+- Beautiful, modern experience
+- Support when you need it
 
 ---
 
-## 📄 License
+## 🤝 Support
 
-This project is licensed under the **O'Saasy License**.
+Questions? Need help? We're here for you.
 
-**What this means:**
-- ✅ Free to use, modify, merge, publish, distribute, and sell
-- ✅ Self-host for personal or business use
-- ✅ Customize and extend as needed
-- ❌ May not be used to directly compete as a hosted/SaaS product
-
-See [LICENSE](LICENSE) for full details.
+- 📧 Email us at support@antihq.com
+- 📖 Check our help documentation
+- 🐛 Report bugs and feature requests
+- 💬 Join our community discussions
 
 ---
 
-## 🙏 Credits
-
-Built with love using:
-- [Laravel](https://laravel.com) — The PHP framework for web artisans
-- [Livewire](https://livewire.laravel.com) — Full-stack framework for Laravel
-- [Flux UI](https://fluxui.dev) — Beautiful component library
-- [Tiptap](https://tiptap.dev) — Headless rich text editor
-- [Tailwind CSS](https://tailwindcss.com) — Rapid UI development
-
----
-
-## 🤝 Support & Community
-
-- 📦 [GitHub Repository](https://github.com/antihq/password)
-- 🐛 [Report Issues](https://github.com/antihq/password/issues)
-- 💬 [Discussions](https://github.com/antihq/password/discussions)
-- 📖 [Documentation](https://github.com/antihq/password/blob/main/README.md)
-
----
-
-**Take control of your digital security today.** 🚀🔒
+**Ready to secure your passwords? [Sign up today](https://antihq.com/password/signup) and get started in minutes.** 🚀🔒
