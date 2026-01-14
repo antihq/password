@@ -12,6 +12,8 @@ Route::redirect('/', 'welcome')->name('home');
 
 Route::view('welcome', 'welcome');
 
+Route::view('landing', 'landing')->name('landing');
+
 Route::view('site.webmanifest', 'site-webmanifest');
 
 Route::middleware([
