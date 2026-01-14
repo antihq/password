@@ -8,7 +8,7 @@ use Laravel\Fortify\Features;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Laravel\Fortify\RoutePath;
 
-Route::redirect('/', 'dashboard')->name('home');
+Route::livewire('/', 'pages::welcome')->name('home');
 
 Route::view('site.webmanifest', 'site-webmanifest');
 
@@ -21,8 +21,6 @@ Route::middleware([
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::livewire('welcome', 'pages::welcome');
-
     Route::livewire('passwords', 'pages::passwords.index')->name('passwords.index');
     Route::livewire('credit-cards', 'pages::credit-cards.index')->name('credit-cards.index');
 

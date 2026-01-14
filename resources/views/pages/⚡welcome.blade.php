@@ -1,13 +1,15 @@
 <?php
 
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new class extends Component
+new #[Layout('layouts::marketing')] #[Title('Secure password & credit card management for teams')] class extends Component
 {
     //
 };
 ?>
 
 <div>
-    {{-- People find pleasure in different ways. I find it in keeping my mind clear. - Marcus Aurelius --}}
+    <x-marketing.hero />
 </div>
