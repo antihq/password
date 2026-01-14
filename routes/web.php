@@ -8,11 +8,7 @@ use Laravel\Fortify\Features;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Laravel\Fortify\RoutePath;
 
-Route::redirect('/', 'welcome')->name('home');
-
-Route::view('welcome', 'welcome');
-
-Route::view('landing', 'landing')->name('landing');
+Route::livewire('/', 'pages::welcome')->name('home');
 
 Route::view('site.webmanifest', 'site-webmanifest');
 
