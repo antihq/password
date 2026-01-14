@@ -26,15 +26,21 @@ new class extends Component {
 ?>
 
 <flux:header {{ $attributes }}>
-    <flux:sidebar.toggle class="lg:hidden" icon="bars-2" />
+    <flux:spacer class="max-sm:hidden" />
 
-    <flux:spacer />
-
-    <flux:navbar class="max-lg:hidden">
-        <flux:navbar.item :href="route('passwords.index')" :current="request()->routeIs('passwords.index')" wire:navigate>
+    <flux:navbar class="max-xs:hidden -mb-px lg:-mb-0">
+        <flux:navbar.item
+            :href="route('passwords.index')"
+            :current="request()->routeIs('passwords.index')"
+            wire:navigate
+        >
             Passwords
         </flux:navbar.item>
-        <flux:navbar.item :href="route('credit-cards.index')" :current="request()->routeIs('credit-cards.index')" wire:navigate>
+        <flux:navbar.item
+            :href="route('credit-cards.index')"
+            :current="request()->routeIs('credit-cards.index')"
+            wire:navigate
+        >
             Credit Cards
         </flux:navbar.item>
     </flux:navbar>
