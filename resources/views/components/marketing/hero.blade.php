@@ -4,7 +4,7 @@
     <x-marketing.container class="relative">
         <div class="pt-16 pb-24 sm:pt-24 sm:pb-32">
             <h1
-                class="text-6xl/[1.1] font-medium tracking-tight text-balance break-words hyphens-auto text-zinc-950 sm:text-8xl/[0.8]"
+                class="text-6xl/[1.1] font-medium tracking-tight text-balance max-sm:break-words max-sm:hyphens-auto text-zinc-950 sm:text-8xl/[0.8]"
             >
                 Secure password & credit card management for teams
             </h1>
