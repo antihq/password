@@ -203,6 +203,7 @@ new #[Title('Passwords')] class extends Component
     document.addEventListener('keydown', (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
             e.preventDefault();
+            this.$refs.search.focus()
         }
     });
 </script>
