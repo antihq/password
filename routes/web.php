@@ -21,6 +21,8 @@ Route::middleware([
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::livewire('welcome', 'pages::welcome');
+
     Route::livewire('passwords', 'pages::passwords.index')->name('passwords.index');
     Route::livewire('credit-cards', 'pages::credit-cards.index')->name('credit-cards.index');
 
