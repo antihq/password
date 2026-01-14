@@ -28,6 +28,8 @@ new class extends Component {
 <flux:header {{ $attributes }}>
     <flux:sidebar.toggle class="lg:hidden" icon="bars-2" />
 
+    <flux:spacer />
+
     <flux:navbar class="max-lg:hidden">
         <flux:navbar.item :href="route('passwords.index')" :current="request()->routeIs('passwords.index')" wire:navigate>
             Passwords

@@ -193,7 +193,7 @@ new class extends Component
 };
 ?>
 
-<section class="mx-auto max-w-6xl space-y-8">
+<section class="mx-auto max-w-lg space-y-8">
     <flux:heading size="xl">Team members</flux:heading>
 
     <div class="space-y-14">
@@ -204,7 +204,7 @@ new class extends Component
                     <flux:text>All team members that currently have access to this team.</flux:text>
                 </header>
 
-                <div class="max-w-3xl divide-y divide-zinc-100 text-zinc-950 dark:divide-white/5 dark:text-white">
+                <div class="max-w-lg divide-y divide-zinc-100 text-zinc-950 dark:divide-white/5 dark:text-white">
                     @foreach ($team->users->sortBy('name') as $member)
                         <livewire:member :$team :$member key="member-{{ $member->id }}" />
                     @endforeach
@@ -265,7 +265,7 @@ new class extends Component
                     <flux:text>These people have been invited to your team and haven't accepted yet.</flux:text>
                 </header>
 
-                <div class="max-w-3xl divide-y divide-zinc-100 text-zinc-950 dark:divide-white/5 dark:text-white">
+                <div class="max-w-lg divide-y divide-zinc-100 text-zinc-950 dark:divide-white/5 dark:text-white">
                     @foreach ($team->teamInvitations as $invitation)
                         <div class="flex items-center justify-between gap-4 py-4">
                             <div class="flex min-w-0 items-center gap-2">
