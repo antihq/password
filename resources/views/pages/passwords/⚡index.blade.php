@@ -110,7 +110,7 @@ new #[Title('Passwords')] class extends Component
 
             @if ($this->passwords->isNotEmpty() || $this->search)
                 <div class="mt-4 flex max-w-xl gap-4">
-                    <flux:input wire:model.live="search" type="search" placeholder="Search" class="flex-1" label:sr-only="Search" icon="magnifying-glass" />
+                    <flux:input wire:model.live="search" wire:ref="search" type="search" placeholder="Search" class="flex-1" label:sr-only="Search" icon="magnifying-glass" kbd="⌘K" />
                 </div>
             @endif
         </div>
@@ -198,3 +198,11 @@ new #[Title('Passwords')] class extends Component
         </form>
     </flux:modal>
 </section>
+
+<script>
+    document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+        }
+    });
+</script>
