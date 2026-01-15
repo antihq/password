@@ -12,9 +12,7 @@ new #[Layout('layouts::marketing')] #[Title('Secure password & credit card manag
 
 <div>
     {{-- Hero --}}
-    <x-mktg.sections.hero id="hero">
-        <x-slot name="headline">Secure password & credit card management for teams and individuals</x-slot>
-
+    <x-mktg.sections.hero id="hero" headline="Secure password & credit card management for teams and individuals.">
         <x-slot name="subheadline">
             <p>
                 Your digital vault, reinvented — military-grade encryption, team collaboration, and beautiful design for
