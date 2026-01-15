@@ -28,14 +28,14 @@ new #[Layout('layouts::marketing')] #[Title('Secure password & credit card manag
             </div>
         </x-slot>
 
-{{--         <x-slot name="demo">
-            <x-mktg.elements.screenshot wallpaper="green" placement="bottom-right" class="rounded-md">
-                <img src="/img/screenshots/1-left-1670-top-1408.webp" alt="" class="bg-white/75 md:hidden dark:hidden">
-                <img src="/img/screenshots/1-color-olive-left-1670-top-1408.webp" alt="" class="bg-black/75 not-dark:hidden md:hidden">
-                <img src="/img/screenshots/1-left-2000-top-1408.webp" alt="" class="bg-white/75 max-md:hidden dark:hidden">
-                <img src="/img/screenshots/1-color-olive-left-2000-top-1408.webp" alt="" class="bg-black/75 not-dark:hidden max-md:hidden">
+        <x-slot name="demo">
+            <x-mktg.elements.screenshot wallpaper="green" placement="bottom" class="rounded-md max-sm:hidden">
+                <img src="/img/screenshots/1.webp" alt="" class="bg-white/75 rounded-t-lg">
             </x-mktg.elements.screenshot>
-        </x-slot> --}}
+            <x-mktg.elements.screenshot wallpaper="green" placement="bottom" class="rounded-md max-h-128 sm:hidden">
+                <img src="/img/screenshots/1-mobile.webp" alt="" class="bg-white/75 rounded-t-2xl">
+            </x-mktg.elements.screenshot>
+        </x-slot>
     </x-mktg.sections.hero>
 
     {{-- Features --}}
@@ -50,18 +50,18 @@ new #[Layout('layouts::marketing')] #[Title('Secure password & credit card manag
         </x-slot:subheadline>
 
         <x-mktg.sections.feature>
-{{--             <x-slot:demo>
-                <x-mktg.elements.screenshot wallpaper="purple" placement="bottom-right">
-                    <img src="/img/screenshots/1-left-1000-top-800.webp" alt="" class="bg-white/75 sm:hidden dark:hidden">
-                    <img src="/img/screenshots/1-color-olive-left-1000-top-800.webp" alt="" class="bg-black/75 not-dark:hidden sm:hidden">
-                    <img src="/img/screenshots/1-left-1800-top-660.webp" alt="" class="bg-white/75 max-sm:hidden lg:hidden dark:hidden">
-                    <img src="/img/screenshots/1-color-olive-left-1800-top-660.webp" alt="" class="bg-black/75 not-dark:hidden max-sm:hidden lg:hidden">
-                    <img src="/img/screenshots/1-left-1300-top-1300.webp" alt="" class="bg-white/75 max-lg:hidden xl:hidden dark:hidden">
-                    <img src="/img/screenshots/1-color-olive-left-1300-top-1300.webp" alt="" class="bg-black/75 not-dark:hidden max-lg:hidden xl:hidden">
-                    <img src="/img/screenshots/1-left-1800-top-1250.webp" alt="" class="bg-white/75 max-xl:hidden dark:hidden">
-                    <img src="/img/screenshots/1-color-olive-left-1800-top-1250.webp" alt="" class="bg-black/75 not-dark:hidden max-xl:hidden">
-                </x-mktg.elements.screenshot>
-            </x-slot:demo> --}}
+            <x-slot:demo>
+{{--                 <x-mktg.elements.screenshot wallpaper="purple" placement="bottom-left">
+                    <img src="/img/screenshots/1.png" alt="" class="rounded-tr-lg bg-white/75 sm:hidden dark:hidden">
+                    <img src="/img/screenshots/1.png" alt="" class="rounded-tr-lg bg-black/75 not-dark:hidden sm:hidden">
+                    <img src="/img/screenshots/1.png" alt="" class="rounded-tr-lg bg-white/75 max-sm:hidden lg:hidden dark:hidden">
+                    <img src="/img/screenshots/1.png" alt="" class="rounded-tr-lg bg-black/75 not-dark:hidden max-sm:hidden lg:hidden">
+                    <img src="/img/screenshots/1.png" alt="" class="rounded-tr-lg bg-white/75 max-lg:hidden xl:hidden dark:hidden">
+                    <img src="/img/screenshots/1.png" alt="" class="rounded-tr-lg bg-black/75 not-dark:hidden max-lg:hidden xl:hidden">
+                    <img src="/img/screenshots/1.png" alt="" class="rounded-tr-lg bg-white/75 max-xl:hidden dark:hidden">
+                    <img src="/img/screenshots/1.png" alt="" class="rounded-tr-lg bg-black/75 not-dark:hidden max-xl:hidden">
+                </x-mktg.elements.screenshot> --}}
+            </x-slot:demo>
 
             <x-slot:headline>Everything in One Secure Vault</x-slot:headline>
 
