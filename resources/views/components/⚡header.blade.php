@@ -41,7 +41,7 @@ new class extends Component {
             :current="request()->routeIs('credit-cards.index')"
             wire:navigate
         >
-            Credit Cards
+            Credit cards
         </flux:navbar.item>
     </flux:navbar>
 

@@ -109,7 +109,7 @@ new #[Title('Credit Cards')] class extends Component
 <section class="mx-auto max-w-lg space-y-8">
     <div class="flex flex-wrap items-end justify-between gap-4">
         <div class="max-sm:w-full sm:flex-1">
-            <flux:heading size="xl">Credit Cards</flux:heading>
+            <flux:heading size="xl">All credit cards</flux:heading>
 
             @if ($this->creditCards->isNotEmpty() || $this->search)
                 <div class="mt-4 flex max-w-xl gap-4">

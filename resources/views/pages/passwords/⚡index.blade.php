@@ -106,7 +106,7 @@ new #[Title('Passwords')] class extends Component
 <section class="mx-auto max-w-lg space-y-8">
     <div class="flex flex-wrap items-end justify-between gap-4">
         <div class="max-sm:w-full sm:flex-1">
-            <flux:heading size="xl">Passwords</flux:heading>
+            <flux:heading size="xl">All passwords</flux:heading>
 
             @if ($this->passwords->isNotEmpty() || $this->search)
                 <div class="mt-4 flex max-w-xl gap-4">
