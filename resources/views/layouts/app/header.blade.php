@@ -4,7 +4,7 @@
         @include('partials.head')
     </head>
     <body class="flex min-h-svh w-full flex-col bg-zinc-100 dark:bg-zinc-950">
-        <livewire:header class="border-b border-zinc-950/5 sm:border-0 dark:border-white/10" />
+        <livewire:header />
 
         {{ $slot }}
 

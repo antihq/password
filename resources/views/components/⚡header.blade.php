@@ -28,7 +28,7 @@ new class extends Component {
 <flux:header {{ $attributes }}>
     <flux:spacer class="max-sm:hidden" />
 
-    <flux:navbar class="max-xs:hidden -mb-px lg:-mb-0">
+    <flux:navbar>
         <flux:navbar.item
             :href="route('passwords.index')"
             :current="request()->routeIs('passwords.index')"
