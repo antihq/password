@@ -24,7 +24,7 @@
 
         <main>{{ $slot }}</main>
 
-        <x-mktg.sections.footer id="footer" fineprint="Designed, built, and backed by Oliver Servín">
+        <x-mktg.sections.footer id="footer" fineprint="Designed, built, and backed by Oliver Servín.">
             <x-slot name="socialLinks">
                 <x-mktg.sections.footer.social-link href="https://x.com/oliverservinX" name="X">
                     <x-mktg.icon.x />
