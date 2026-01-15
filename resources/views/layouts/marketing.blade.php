@@ -29,7 +29,7 @@
                 <x-mktg.sections.footer.social-link href="https://x.com/oliverservinX" name="X">
                     <x-mktg.icon.x />
                 </x-mktg.sections.footer.social-link>
-                <x-mktg.sections.footer.social-link href="https://github.com/antihq" name="GitHub">
+                <x-mktg.sections.footer.social-link href="https://github.com/antihq/password" name="GitHub">
                     <x-mktg.icon.github />
                 </x-mktg.sections.footer.social-link>
             </x-slot>
