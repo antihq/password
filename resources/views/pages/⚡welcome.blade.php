@@ -49,7 +49,7 @@ new #[Layout('layouts::marketing')] #[Title('Secure password & credit card manag
             </p>
         </x-slot:subheadline>
 
-        <x-mktg.sections.feature>
+        <x-mktg.sections.feature headline="Everything in one secure vault">
             <x-slot:demo>
 {{--                 <x-mktg.elements.screenshot wallpaper="purple" placement="bottom-left">
                     <img src="/img/screenshots/1.png" alt="" class="rounded-tr-lg bg-white/75 sm:hidden dark:hidden">
@@ -63,8 +63,6 @@ new #[Layout('layouts::marketing')] #[Title('Secure password & credit card manag
                 </x-mktg.elements.screenshot> --}}
             </x-slot:demo>
 
-            <x-slot:headline>Everything in One Secure Vault</x-slot:headline>
-
             <x-slot:subheadline>
                 <p>
                     Store unlimited passwords and credit cards with military-grade AES-256 encryption. Auto-fetch
@@ -73,7 +71,7 @@ new #[Layout('layouts::marketing')] #[Title('Secure password & credit card manag
             </x-slot:subheadline>
         </x-mktg.sections.feature>
 
-        <x-mktg.sections.feature>
+        <x-mktg.sections.feature headline="Built for teams from day one">
 {{--             <x-slot:demo>
                 <x-mktg.elements.screenshot wallpaper="blue" placement="bottom-left">
                     <img src="/img/screenshots/1-right-1000-top-800.webp" alt="" class="bg-white/75 sm:hidden dark:hidden">
@@ -86,8 +84,6 @@ new #[Layout('layouts::marketing')] #[Title('Secure password & credit card manag
                     <img src="/img/screenshots/1-color-olive-right-1800-top-1250.webp" alt="" class="bg-black/75 not-dark:hidden max-xl:hidden">
                 </x-mktg.elements.screenshot>
             </x-slot:demo> --}}
-
-            <x-slot:headline>Built for Teams from Day One</x-slot:headline>
 
             <x-slot:subheadline>
                 <p>
