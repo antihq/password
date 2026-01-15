@@ -99,7 +99,7 @@ new #[Layout('layouts::marketing')] #[Title('Secure password & credit card manag
     </x-mktg.sections.features>
 
     {{-- Call To Action --}}
-    <x-mktg.sections.call-to-action id="call-to-action" headline="Ready to Secure Your Digital Life?">
+    <x-mktg.sections.call-to-action id="call-to-action" headline="Ready to secure your digital life?">
         <x-slot:subheadline>
             <p>
                 Get started in minutes with zero setup. Sign up today and experience the most intuitive way to manage
