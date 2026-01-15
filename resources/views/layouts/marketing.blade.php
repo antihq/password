@@ -1,7 +1,7 @@
 @props(['title' => null])
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark bg-zinc-100 antialiased">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark bg-zinc-100 antialiased dark:bg-zinc-950">
     <head>
         @include('partials.head')
 
