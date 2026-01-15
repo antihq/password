@@ -7,7 +7,7 @@
         </div>
     </flux:main>
 
-    <flux:footer class="flex px-6! py-3! sm:mx-auto">
+    <flux:footer class="flex px-6! py-3! sm:mx-auto bg-white dark:bg-zinc-900">
         <flux:text class="text-sm/5 sm:text-[13px]/5">
             <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
             is designed, built, and backed by
