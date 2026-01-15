@@ -4,11 +4,17 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new #[Layout('layouts::marketing')] #[Title('Secure password & credit card management for teams')] class extends Component
+new #[Layout('layouts::marketing')] #[Title('Secure password & credit card management for teams.')] class extends Component
 {
     //
 };
 ?>
+
+<x-slot name="meta">
+    <meta property="og:description" content="Secure password & credit card management for teams.">
+    <meta property="og:image" content="{{ url('opengraph.jpg') }}">
+    <meta property="og:type" content="website">
+</x-slot>
 
 <div>
     {{-- Hero --}}
@@ -27,7 +33,7 @@ new #[Layout('layouts::marketing')] #[Title('Secure password & credit card manag
         </x-slot>
 
         <x-slot name="demo">
-            <x-mktg.elements.screenshot wallpaper="green" placement="bottom" class="rounded-md max-sm:hidden">
+            <x-mktg.elements.screenshot wallpaper="green" placement="bottom" class="rounded-md max-sm:hidden md:-mx-8">
                 <img src="/img/screenshots/1.webp" alt="" class="bg-white/75 rounded-t-lg">
             </x-mktg.elements.screenshot>
             <x-mktg.elements.screenshot wallpaper="green" placement="bottom" class="rounded-md max-h-128 sm:hidden">
