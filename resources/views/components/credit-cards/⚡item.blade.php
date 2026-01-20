@@ -125,45 +125,45 @@ new class extends Component {
 };
 ?>
 
-<li {{ $attributes }}>
-    <div
-        class="relative flex justify-between gap-x-6 rounded-lg px-3.5 py-2.5 hover:bg-zinc-950/2.5 sm:px-3 sm:py-1.5 dark:hover:bg-white/2.5"
-    >
-        <div class="flex min-w-0 gap-x-4">
-            <div class="shrink-0 max-sm:-mt-0.5">
-                @if ($creditCard->avatar_url)
-                    <flux:avatar :src="$creditCard->avatar_url" size="xs" class="bg-transparent" />
-                @else
-                    <flux:avatar size="xs" class="bg-transparent">
-                        <flux:icon.credit-card variant="outline" class="text-zinc-500 dark:text-zinc-400" />
-                    </flux:avatar>
-                @endif
-            </div>
-            <div class="min-w-0 flex-auto">
-                <flux:heading class="truncate">
+<div {{ $attributes }}>
+    <div class="flex items-center justify-between gap-4 py-4">
+        <div class="flex gap-4">
+            <flux:modal.trigger name="view-credit-card-{{ $creditCard->id }}">
+                <button type="button" class="flex">
+                    @if ($creditCard->avatar_url)
+                        <flux:avatar :src="$creditCard->avatar_url" size="xs" class="bg-transparent" />
+                    @else
+                        <flux:avatar size="xs">
+                            <flux:icon.credit-card variant="outline" class="text-zinc-500 dark:text-zinc-400" />
+                        </flux:avatar>
+                    @endif
+                </button>
+            </flux:modal.trigger>
+            <div class="overflow-hidden">
+                <flux:heading class="leading-6!">
                     <flux:modal.trigger name="view-credit-card-{{ $creditCard->id }}">
-                        <span class="absolute inset-x-0 -top-px bottom-0"></span>
-                        {{ $creditCard->name }}
+                        <button type="button" class="max-w-full truncate text-left">{{ $creditCard->name }}</button>
                     </flux:modal.trigger>
                 </flux:heading>
-                <flux:text size="sm">
+                <flux:text class="leading-6!" size="sm">
                     {{ $creditCard->name_on_card }}
                 </flux:text>
             </div>
         </div>
-        <div class="flex shrink-0 items-center gap-x-4">
+
+        <div class="flex shrink-0 items-center gap-4">
             <flux:dropdown align="end">
-                <flux:button icon="ellipsis-horizontal" variant="ghost" square class="-mr-2" />
+                <flux:button icon="ellipsis-horizontal" variant="subtle" square />
 
                 <flux:menu>
                     <flux:modal.trigger name="view-credit-card-{{ $creditCard->id }}">
-                        <flux:menu.item icon="eye">View</flux:menu.item>
+                        <flux:menu.item>View</flux:menu.item>
                     </flux:modal.trigger>
                     <flux:modal.trigger name="edit-credit-card-{{ $creditCard->id }}">
-                        <flux:menu.item icon="pencil">Edit</flux:menu.item>
+                        <flux:menu.item>Edit</flux:menu.item>
                     </flux:modal.trigger>
                     <flux:modal.trigger name="delete-credit-card-{{ $creditCard->id }}">
-                        <flux:menu.item variant="danger" icon="trash">Delete</flux:menu.item>
+                        <flux:menu.item variant="danger">Delete</flux:menu.item>
                     </flux:modal.trigger>
                 </flux:menu>
             </flux:dropdown>
@@ -433,4 +433,4 @@ new class extends Component {
             </div>
         </div>
     </flux:modal>
-</li>
+</div>

@@ -106,7 +106,7 @@ new #[Title('Credit Cards')] class extends Component
 };
 ?>
 
-<section class="mx-auto max-w-lg space-y-8">
+<section class="mx-auto max-w-lg">
     <div class="flex flex-wrap items-end justify-between gap-4">
         <div class="max-sm:w-full sm:flex-1">
             <flux:heading size="xl">All credit cards</flux:heading>
@@ -134,43 +134,41 @@ new #[Title('Credit Cards')] class extends Component
         @endif
     </div>
 
-    @if ($this->creditCards->isNotEmpty())
-        <div
-            class="relative h-full w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,0,0,0.20),0px_1px_0px_0px_rgba(255,255,255,0.06)_inset] forced-colors:outline"
-        >
-            <ul role="list" class="overflow-hidden p-[.3125rem]">
-                @foreach ($this->creditCards as $creditCard)
-                    <livewire:credit-cards.item :$creditCard key="credit-card-{{ $creditCard->id }}" />
-                    @unless ($loop->last)
-                        <li class="mx-3.5 my-1 h-px sm:mx-3">
-                            <flux:separator variant="subtle" wire:key="separator-{{ $creditCard->id }}" />
-                        </li>
-                    @endunless
-                @endforeach
-            </ul>
-        </div>
-    @else
-        <div class="text-center">
-            @if ($this->search)
-                <div class="mx-auto flex items-center justify-center">
-                    <flux:icon.magnifying-glass variant="outline" class="size-6 text-zinc-500 dark:text-zinc-400" />
-                </div>
-                <flux:heading class="mt-2">No results found</flux:heading>
-                <flux:text class="mt-1">Try adjusting your search term.</flux:text>
-            @else
-                <div class="mx-auto flex items-center justify-center">
-                    <flux:icon.credit-card variant="outline" class="size-6 text-zinc-500 dark:text-zinc-400" />
-                </div>
-                <flux:heading class="mt-2">No credit cards</flux:heading>
-                <flux:text class="mt-1">Get started by adding a new credit card.</flux:text>
-                <div class="mt-6">
-                    <flux:modal.trigger name="create-credit-card">
-                        <flux:button variant="primary">Add credit card</flux:button>
-                    </flux:modal.trigger>
-                </div>
-            @endif
-        </div>
-    @endif
+    <div class="mt-8">
+        @if ($this->creditCards->isNotEmpty())
+            <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10" />
+            <div class="divide-y divide-zinc-100 dark:divide-white/5">
+                @island(name: 'credit-cards', lazy: true)
+                    @placeholder
+                        @foreach (range(1, rand(3, 8)) as $i)
+                            <flux:skeleton.group animate="shimmer" class="py-4">
+                                <flux:skeleton class="h-15" />
+                            </flux:skeleton.group>
+                        @endforeach
+                    @endplaceholder
+                    @foreach ($this->creditCards as $creditCard)
+                        <livewire:credit-cards.item :$creditCard wire:key="credit-card-{{ $creditCard->id }}" />
+                    @endforeach
+                @endisland
+            </div>
+        @else
+            <div class="flex flex-col items-center justify-center py-12">
+                @if ($this->search)
+                    <flux:icon.magnifying-glass variant="outline" size="lg" class="text-gray-400 dark:text-gray-600" />
+                    <flux:text class="mt-4 text-gray-500 dark:text-gray-400">No results found</flux:text>
+                    <flux:text class="mt-1 text-gray-500 dark:text-gray-400">Try adjusting your search term.</flux:text>
+                @else
+                    <flux:icon.credit-card variant="outline" size="lg" class="text-gray-400 dark:text-gray-600" />
+                    <flux:text class="mt-4 text-gray-500 dark:text-gray-400">No credit cards yet</flux:text>
+                    <div class="mt-6">
+                        <flux:modal.trigger name="create-credit-card">
+                            <flux:button variant="primary">Add credit card</flux:button>
+                        </flux:modal.trigger>
+                    </div>
+                @endif
+            </div>
+        @endif
+    </div>
 
     <flux:modal name="create-credit-card" class="w-full sm:max-w-lg">
         <form wire:submit="create" class="space-y-8">
