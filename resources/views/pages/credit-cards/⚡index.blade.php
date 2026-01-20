@@ -92,6 +92,8 @@ new #[Title('Credit Cards')] class extends Component
             'notes' => $this->pull('notes'),
         ]);
 
+        $this->renderIsland('credit-cards');
+
         $this->modal('create-credit-card')->close();
     }
 
