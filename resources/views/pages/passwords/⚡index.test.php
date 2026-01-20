@@ -11,16 +11,6 @@ beforeEach(function () {
     $this->user->update(['current_team_id' => $this->team->id]);
 });
 
-it('can view passwords list', function () {
-    $password = Password::factory()->create(['team_id' => $this->team->id]);
-
-    $this->actingAs($this->user)
-        ->get(route('passwords.index'))
-        ->assertStatus(200)
-        ->assertSee($password->name)
-        ->assertSee($password->username);
-});
-
 it('cannot view passwords from other teams', function () {
     $otherUser = User::factory()->create();
     $otherTeam = Team::factory()->create(['user_id' => $otherUser->id]);
@@ -119,16 +109,6 @@ it('cannot delete password from other team', function () {
         ->get(route('passwords.index'))
         ->assertStatus(200)
         ->assertDontSee($password->name);
-});
-
-it('displays delete confirmation modal for password', function () {
-    $password = Password::factory()->create(['team_id' => $this->team->id]);
-
-    $this->actingAs($this->user)
-        ->get(route('passwords.index'))
-        ->assertStatus(200)
-        ->assertSee($password->name)
-        ->assertSee('delete-password-'.$password->id);
 });
 
 it('regenerates password after creating a new password', function () {

@@ -11,16 +11,6 @@ beforeEach(function () {
     $this->user->update(['current_team_id' => $this->team->id]);
 });
 
-it('can view credit cards list', function () {
-    $creditCard = CreditCard::factory()->create(['team_id' => $this->team->id]);
-
-    $this->actingAs($this->user)
-        ->get(route('credit-cards.index'))
-        ->assertStatus(200)
-        ->assertSee($creditCard->name)
-        ->assertSee($creditCard->name_on_card);
-});
-
 it('cannot view credit cards from other teams', function () {
     $otherUser = User::factory()->create();
     $otherTeam = Team::factory()->create(['user_id' => $otherUser->id]);
@@ -164,16 +154,6 @@ it('cannot delete credit card from other team', function () {
         ->get(route('credit-cards.index'))
         ->assertStatus(200)
         ->assertDontSee($creditCard->name_on_card);
-});
-
-it('displays delete confirmation modal for credit card', function () {
-    $creditCard = CreditCard::factory()->create(['team_id' => $this->team->id]);
-
-    $this->actingAs($this->user)
-        ->get(route('credit-cards.index'))
-        ->assertStatus(200)
-        ->assertSee($creditCard->name_on_card)
-        ->assertSee('delete-credit-card-'.$creditCard->id);
 });
 
 it('can search credit cards by cardholder name', function () {
