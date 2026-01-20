@@ -55,6 +55,11 @@ new #[Title('Credit Cards')] class extends Component
             ->values();
     }
 
+    public function updatedSearch(): void
+    {
+        $this->renderIsland('credit-cards');
+    }
+
     public function create(): void
     {
         $this->authorize('create', CreditCard::class);

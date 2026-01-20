@@ -67,6 +67,11 @@ new #[Title('Passwords')] class extends Component
         $this->password = "{$part1}-{$part2}-{$part3}";
     }
 
+    public function updatedSearch(): void
+    {
+        $this->renderIsland('passwords');
+    }
+
     public function create(): void
     {
         $this->authorize('create', Password::class);
