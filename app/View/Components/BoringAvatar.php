@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\View\ComponentAttributeBag;
 
 class BoringAvatar extends Component
 {
@@ -59,7 +60,7 @@ class BoringAvatar extends Component
         $this->title = $title;
         $this->square = $square;
         $this->size = $size;
-        $this->attributes = new \Illuminate\View\ComponentAttributeBag;
+        $this->attributes = new ComponentAttributeBag;
     }
 
     public function render(): View
@@ -317,8 +318,7 @@ class BoringAvatar extends Component
         $hash = 0;
         for ($i = 0; $i < strlen($str); $i++) {
             $character = ord($str[$i]);
-            $hash = (($hash << 5) - $hash) + $character;
-            $hash = $hash & $hash;
+            $hash = ((($hash << 5) - $hash) + $character) & 0xFFFFFFFF;
         }
 
         return abs($hash);
